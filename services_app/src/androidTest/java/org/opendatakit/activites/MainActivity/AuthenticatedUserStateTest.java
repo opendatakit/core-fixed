@@ -189,7 +189,6 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.inputTextPassword)).check(matches(withText("")));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());

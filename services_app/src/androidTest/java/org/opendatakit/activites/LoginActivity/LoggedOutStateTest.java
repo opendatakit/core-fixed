@@ -44,13 +44,11 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
         });
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyValuesTest() {
         onView(withId(R.id.tvServerUrlLogin)).check(matches(withText(TEST_SERVER_URL)));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyVisibilityTest() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());

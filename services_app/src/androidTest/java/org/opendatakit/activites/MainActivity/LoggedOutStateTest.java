@@ -105,7 +105,6 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyDrawerSignInButtonClickTest() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());

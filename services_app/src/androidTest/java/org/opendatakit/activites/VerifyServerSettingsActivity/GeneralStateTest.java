@@ -5,6 +5,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
@@ -69,6 +70,7 @@ public class GeneralStateTest extends BaseUITest<VerifyServerSettingsActivity> {
     @Test
     public void checkToolbarSettingsButtonClick() {
         onView(withId(R.id.action_settings)).perform(ViewActions.click());
+        onView(isRoot()).perform(waitFor(2000));
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }
 
