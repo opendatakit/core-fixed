@@ -1,30 +1,38 @@
+
 version: 2.1
 
+orbs:
+  android: circleci/android@2.4.0
 jobs:
   test:
     description: Runs unit tests and instrumented tests on the Android Common
-    docker:
-      - image: circleci/android:2020.10
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: 2024.01.1
+
     steps:
       - checkout
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
-      - run:
-          name: Download and Install SDK Packages
-          command: sdkmanager "system-images;android-29;google_apis;x86" "platform-tools" "platforms;android-29" "emulator" --sdk_root=/usr/local/android-sdk
-      - run:
-          name: Create and Start Emulator
-          command: |
-            echo "no" | avdmanager --verbose create avd --force --name test --package "system-images;android-29;google_apis;x86" --abi google_apis/x86
-            emulator -avd test -no-window -no-audio -no-snapshot -gpu swiftshader_indirect &
-            circle-android wait-for-boot
-      - run:
-          name: Wait for Emulator to Start
-          command: adb wait-for-device
-      - run:
-          name: Install APKs and Run Tests
-          command: ./gradlew installSnapshotDebug && ./gradlew testSnapshotDebugUnitTest && ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
+
+      - android/create-avd:
+          avd-name: avd
+          install: true
+          system-image: system-images;android-29;default;x86
+      - android/start-emulator:
+          avd-name: avd
+          no-window: true
+          restore-gradle-cache-prefix: v2
+          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
+      - android/disable-animations
+      - android/run-tests:
+          test-command: ./gradlew testSnapshotDebugUnitTest
+      - android/run-tests:
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
+      - android/save-gradle-cache:
+          cache-prefix: v1
       - store_artifacts:
           name: Store Test Results
           path: services_app/build/outputs/androidTest-results
@@ -32,7 +40,36 @@ jobs:
           name: Store Test Reports
           path: services_app/build/reports
 
+  build:
+    docker:
+      - image: cimg/android:2024.01
+    steps:
+      - checkout
+      - run:
+          name: Chmod Permissions
+          command: sudo chmod +x gradlew
+      - android/restore-gradle-cache:
+          cache-prefix: v1
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - android/save-gradle-cache:
+          cache-prefix: v1
+      - run:
+          name: Build Services
+          command: ./gradlew assembleSnapshotDebug
+      - store_artifacts:
+          name: Store Build Artifacts
+          path: services_app/build/outputs/apk
+      - persist_to_workspace:
+          root: .
+          paths:
+            - services_app/build/outputs/apk
+
 workflows:
   build-test-workflow:
     jobs:
-      - test
+      - build
+      - test:
+          requires:
+            - build
