@@ -1,25 +1,27 @@
 version: 2.1
 
-orbs:
-  android: circleci/android@2.4.0
-
 jobs:
   test:
     description: Runs unit tests and instrumented tests on the Android Common
-    executor:
-      name: android/default
-      tag: 2024.01.1
-
+    docker:
+      - image: circleci/android:2020.10
     steps:
       - checkout
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
-      - android/setup-emulator:
-          api-level: 29
-          emulator-type: full
-      - android/wait-for-emulator:
-          timeout-sec: 180
+      - run:
+          name: Download and Install SDK Packages
+          command: sdkmanager "system-images;android-29;google_apis;x86" "platform-tools" "platforms;android-29" "emulator" --sdk_root=/usr/local/android-sdk
+      - run:
+          name: Create and Start Emulator
+          command: |
+            echo "no" | avdmanager --verbose create avd --force --name test --package "system-images;android-29;google_apis;x86" --abi google_apis/x86
+            emulator -avd test -no-window -no-audio -no-snapshot -gpu swiftshader_indirect &
+            circle-android wait-for-boot
+      - run:
+          name: Wait for Emulator to Start
+          command: adb wait-for-device
       - run:
           name: Install APKs and Run Tests
           command: ./gradlew installSnapshotDebug && ./gradlew testSnapshotDebugUnitTest && ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
@@ -30,33 +32,7 @@ jobs:
           name: Store Test Reports
           path: services_app/build/reports
 
-  build:
-    docker:
-      - image: cimg/android:2024.01
-
-    steps:
-      - checkout
-      - run:
-          name: Chmod Permissions
-          command: sudo chmod +x gradlew
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - run:
-          name: Build Services
-          command: ./gradlew assembleSnapshotDebug
-      - store_artifacts:
-          name: Store Build Artifacts
-          path: services_app/build/outputs/apk
-      - persist_to_workspace:
-          root: .
-          paths:
-            - services_app/build/outputs/apk
-
 workflows:
   build-test-workflow:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - test
