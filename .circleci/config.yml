@@ -8,7 +8,7 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: xlarge
+      resource-class: large
       tag: 2024.01.1
 
     steps:
@@ -27,10 +27,12 @@ jobs:
           memory: 4096
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
       - android/disable-animations
-      - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest --info
-      - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew testSnapshotDebugUnitTest --info
+      - run:
+          name: Run Instrumented Tests
+          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
           no-output-timeout: 30m
       - android/save-gradle-cache:
           cache-prefix: v1
@@ -59,12 +61,12 @@ jobs:
           cache-prefix: v1
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: ./gradlew androidDependencies --info
       - android/save-gradle-cache:
           cache-prefix: v1
       - run:
           name: Build Services
-          command: ./gradlew assembleSnapshotDebug
+          command: ./gradlew assembleSnapshotDebug --info
       - store_artifacts:
           name: Store Build Artifacts
           path: services_app/build/outputs/apk
