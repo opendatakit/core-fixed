@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -97,7 +98,7 @@ public class AnonymousStateTest extends BaseUITest<VerifyServerSettingsActivity>
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(TestConsts.WAIT_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -105,7 +106,7 @@ public class AnonymousStateTest extends BaseUITest<VerifyServerSettingsActivity>
         onView(withId(R.id.drawer_resolve_conflict)).perform(ViewActions.click());
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(TestConsts.WAIT_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

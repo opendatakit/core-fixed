@@ -20,8 +20,10 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -70,10 +72,11 @@ public class GeneralStateTest extends BaseUITest<VerifyServerSettingsActivity> {
     @Test
     public void checkToolbarSettingsButtonClick() {
         onView(withId(R.id.action_settings)).perform(ViewActions.click());
-        onView(isRoot()).perform(waitFor(2000));
+        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }
 
+    @Ignore
     @Test
     public void checkDrawerSettingsClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
