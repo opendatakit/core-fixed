@@ -1,14 +1,14 @@
+
 version: 2.1
 
 orbs:
   android: circleci/android@2.4.0
-
 jobs:
   test:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: large
+      resource-class: xlarge
       tag: 2024.01.1
 
     steps:
@@ -16,6 +16,7 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
+
       - android/create-avd:
           avd-name: avd
           install: true
@@ -26,40 +27,20 @@ jobs:
           restore-gradle-cache-prefix: v1
           memory: 4096
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
-      - run:
-          name: Wait for Emulator
-          command: |
-            # Wait for the emulator to fully boot up
-            adb wait-for-device
-            sleep 30
-            adb shell input keyevent 82
-      - run:
-          name: Restart ADB Server
-          command: |
-            adb kill-server
-            adb start-server
-            adb devices
       - android/disable-animations
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew testSnapshotDebugUnitTest --info
-      - run:
-          name: Run Instrumented Tests
-          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+      - android/run-tests:
+          test-command: ./gradlew testSnapshotDebugUnitTest --info
+      - android/run-tests:
+          test-command:./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
           no-output-timeout: 30m
       - android/save-gradle-cache:
           cache-prefix: v1
-      - store_test_results:
+      - store_artifacts:
+          name: Store Test Results
           path: services_app/build/outputs/androidTest-results
       - store_artifacts:
           name: Store Test Reports
           path: services_app/build/reports
-      - run:
-          name: Collect ADB Logs
-          command: adb logcat -d > $CIRCLE_ARTIFACTS/adb_log.txt
-      - store_artifacts:
-          name: Store ADB Logs
-          path: $CIRCLE_ARTIFACTS/adb_log.txt
 
   build:
     docker:
