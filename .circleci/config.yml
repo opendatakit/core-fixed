@@ -30,6 +30,7 @@ jobs:
           test-command: ./gradlew testSnapshotDebugUnitTest
       - android/run-tests:
           test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
+          no_output_timeout: 1h
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:
