@@ -1,4 +1,3 @@
-
 version: 2.1
 
 orbs:
@@ -16,6 +15,8 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
+          environment:
+            TERM: dumb
 
       - android/create-avd:
           avd-name: avd
@@ -25,13 +26,19 @@ jobs:
           avd-name: avd
           no-window: true
           restore-gradle-cache-prefix: v1
-          memory: 4096 
-          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
+          memory: 4096
+          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
+          environment:
+            TERM: dumb
       - android/disable-animations
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
+          environment:
+            TERM: dumb
       - android/run-tests:
           test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
+          environment:
+            TERM: dumb
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:
@@ -49,16 +56,22 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
+          environment:
+            TERM: dumb
       - android/restore-gradle-cache:
           cache-prefix: v1
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+          environment:
+            TERM: dumb
       - android/save-gradle-cache:
           cache-prefix: v1
       - run:
           name: Build Services
           command: ./gradlew assembleSnapshotDebug
+          environment:
+            TERM: dumb
       - store_artifacts:
           name: Store Build Artifacts
           path: services_app/build/outputs/apk
