@@ -15,9 +15,6 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
-          environment:
-            TERM: dumb
-
       - android/create-avd:
           avd-name: avd
           install: true
@@ -28,8 +25,6 @@ jobs:
           restore-gradle-cache-prefix: v1
           memory: 4096 
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
-          environment:
-            TERM: dumb
       - android/disable-animations
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
@@ -57,7 +52,6 @@ jobs:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
           environment:
-            TERM: dumb
       - android/restore-gradle-cache:
           cache-prefix: v1
       - run:
