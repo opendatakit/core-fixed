@@ -41,6 +41,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -214,18 +215,17 @@ public abstract class BaseUITest<T extends Activity> {
 
             @Override
             public String getDescription() {
-                return "wait for a specific view with matcher <" + viewMatcher + "> during " + millis + " millis.";
+                return "Wait for a specific view with id <" + viewMatcher + "> during " + millis + " millis.";
             }
 
             @Override
             public void perform(final UiController uiController, final View view) {
                 final long startTime = System.currentTimeMillis();
                 final long endTime = startTime + millis;
-                final Matcher<View> finalViewMatcher = viewMatcher;
 
                 do {
                     for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
-                        if (finalViewMatcher.matches(child)) {
+                        if (viewMatcher.matches(child)) {
                             return;
                         }
                     }
@@ -233,16 +233,14 @@ public abstract class BaseUITest<T extends Activity> {
                     uiController.loopMainThreadForAtLeast(50);
                 } while (System.currentTimeMillis() < endTime);
 
-                // Timeout happened.
                 throw new PerformException.Builder()
                         .withActionDescription(this.getDescription())
-                        .withViewDescription(view.toString())
+                        .withViewDescription(HumanReadables.describe(view))
                         .withCause(new TimeoutException())
                         .build();
             }
         };
     }
-
     public static void enableAdminMode() {
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.user_restrictions)),

@@ -73,9 +73,9 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
     @Test
     public void verifyVisibilityTest() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 2000));
+        onView(isRoot()).perform(waitFor(2000));
+        onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).perform(click());
-        Espresso.onIdle();
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
     }
