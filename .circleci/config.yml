@@ -15,6 +15,7 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
+
       - android/create-avd:
           avd-name: avd
           install: true
@@ -28,12 +29,9 @@ jobs:
       - android/disable-animations
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
-          environment:
-            TERM: dumb
       - android/run-tests:
           test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
-          environment:
-            TERM: dumb
+          no-output-timeout: 1h
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:
@@ -51,21 +49,16 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
-          environment:
       - android/restore-gradle-cache:
           cache-prefix: v1
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-          environment:
-            TERM: dumb
       - android/save-gradle-cache:
           cache-prefix: v1
       - run:
           name: Build Services
           command: ./gradlew assembleSnapshotDebug
-          environment:
-            TERM: dumb
       - store_artifacts:
           name: Store Build Artifacts
           path: services_app/build/outputs/apk
