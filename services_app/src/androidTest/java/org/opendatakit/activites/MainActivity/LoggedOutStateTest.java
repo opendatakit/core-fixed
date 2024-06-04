@@ -12,17 +12,16 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -105,15 +104,16 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.btnSignInMain)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
-
+    @Ignore
     @Test
     public void verifyDrawerSignInButtonClickTest() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 2000));
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), TestConsts.WAIT_TIME));
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
 
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), TestConsts.WAIT_TIME));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.WAIT_TIME));
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
+
 }

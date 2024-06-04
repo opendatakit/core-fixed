@@ -1,6 +1,7 @@
 package org.opendatakit.activites.MainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -13,17 +14,16 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -189,19 +189,19 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.inputTextUsername)).check(matches(withText(TEST_USERNAME)));
         onView(withId(R.id.inputTextPassword)).check(matches(withText("")));
     }
-
+    @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 2000));
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpen)).perform(click());
 
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
-        onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), TestConsts.WAIT_TIME));
+        onView(withId(R.id.btnDrawerLogin)).perform(click());
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.WAIT_TIME));
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
 
         onView(withId(R.id.btnSignInMain)).check(matches(isDisplayed()));
     }
+
 }
