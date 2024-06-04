@@ -40,15 +40,16 @@ jobs:
             adb start-server
             adb devices
       - android/disable-animations
-      - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest
-      - android/run-tests:
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew testSnapshotDebugUnitTest --info
+      - run:
+          name: Run Instrumented Tests
           command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
-          no-output-timeout: 30min
+          no-output-timeout: 30m
       - android/save-gradle-cache:
           cache-prefix: v1
-      - store_artifacts:
-          name: Store Test Results
+      - store_test_results:
           path: services_app/build/outputs/androidTest-results
       - store_artifacts:
           name: Store Test Reports
@@ -56,6 +57,9 @@ jobs:
       - run:
           name: Collect ADB Logs
           command: adb logcat -d > $CIRCLE_ARTIFACTS/adb_log.txt
+      - store_artifacts:
+          name: Store ADB Logs
+          path: $CIRCLE_ARTIFACTS/adb_log.txt
 
   build:
     docker:
@@ -65,7 +69,6 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
-          environment:
       - android/restore-gradle-cache:
           cache-prefix: v1
       - run:
