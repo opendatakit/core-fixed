@@ -28,12 +28,8 @@ jobs:
       - android/disable-animations
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
-          environment:
-            TERM: dumb
       - android/run-tests:
           test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
-          environment:
-            TERM: dumb
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:
@@ -57,15 +53,11 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-          environment:
-            TERM: dumb
       - android/save-gradle-cache:
           cache-prefix: v1
       - run:
           name: Build Services
           command: ./gradlew assembleSnapshotDebug
-          environment:
-            TERM: dumb
       - store_artifacts:
           name: Store Build Artifacts
           path: services_app/build/outputs/apk
