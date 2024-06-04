@@ -24,7 +24,8 @@ jobs:
       - android/start-emulator:
           avd-name: avd
           no-window: true
-          restore-gradle-cache-prefix: v2
+          restore-gradle-cache-prefix: v1
+          memory: 4096 
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
       - android/disable-animations
       - android/run-tests:
