@@ -1,3 +1,4 @@
+
 version: 2.1
 
 orbs:
@@ -7,7 +8,7 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: xlarge
+      resource-class: large
       tag: 2024.01.1
 
     steps:
@@ -23,7 +24,8 @@ jobs:
       - android/start-emulator:
           avd-name: avd
           no-window: true
-          restore-gradle-cache-prefix: v2
+          restore-gradle-cache-prefix: v1
+          memory: 4096 
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
       - android/disable-animations
       - android/run-tests:
