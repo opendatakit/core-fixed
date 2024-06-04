@@ -8,7 +8,7 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: xxlarge
+      resource-class: 2xlarge
       tag: 2024.01.1
 
     steps:
