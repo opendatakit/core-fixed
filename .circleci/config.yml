@@ -1,8 +1,8 @@
-
 version: 2.1
 
 orbs:
   android: circleci/android@2.4.0
+
 jobs:
   test:
     description: Runs unit tests and instrumented tests on the Android Common
@@ -16,7 +16,6 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
-
       - android/create-avd:
           avd-name: avd
           install: true
@@ -31,7 +30,7 @@ jobs:
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest --info
       - android/run-tests:
-          test-command:./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
           no-output-timeout: 30m
       - android/save-gradle-cache:
           cache-prefix: v1
@@ -41,6 +40,12 @@ jobs:
       - store_artifacts:
           name: Store Test Reports
           path: services_app/build/reports
+      - run:
+          name: Collect ADB Logs
+          command: adb logcat -d > adb_log.txt
+      - store_artifacts:
+          name: Store ADB Logs
+          path: adb_log.txt
 
   build:
     docker:
