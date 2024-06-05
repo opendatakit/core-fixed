@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import static org.hamcrest.Matchers.allOf;
 
-import android.content.Context;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -28,7 +27,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -202,11 +200,10 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
         Espresso.onIdle();
-
-        onView(withContentDescription(context.getString(R.string.drawer_sign_out_button_text))).perform(click());
+        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
+        onView(withContentDescription("SIGN IN OR OUT")).perform(click());
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));

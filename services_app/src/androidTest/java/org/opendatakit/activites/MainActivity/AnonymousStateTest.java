@@ -157,15 +157,13 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
         onView(withId(R.id.btnDrawerOpen)).perform(click());
         Espresso.onIdle();
+        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
+        onView(withContentDescription("SIGN IN OR OUT")).perform(click());
 
-        onView(withContentDescription(context.getString(R.string.drawer_sign_out_button_text))).perform(click());
-
-        onView(withId(R.id.tvUserStateMain)).check(matches(withText(context.getString(R.string.logged_out))));
-        onView(withId(R.id.btnDrawerLogin)).check(matches(withText(context.getString(R.string.drawer_sign_in_button_text))));
+        onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
+        onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
         onView(withId(R.id.btnSignInMain)).check(matches(isDisplayed()));
     }
 
