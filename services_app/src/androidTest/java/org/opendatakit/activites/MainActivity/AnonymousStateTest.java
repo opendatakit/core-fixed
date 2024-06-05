@@ -1,7 +1,9 @@
 package org.opendatakit.activites.MainActivity;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -152,8 +154,8 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
     @Test
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(click());
-
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(ViewActions.click());
+        closeSoftKeyboard();
+        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(scrollTo()).perform(ViewActions.click());
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
