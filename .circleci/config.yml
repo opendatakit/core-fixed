@@ -17,7 +17,7 @@ jobs:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
 
-            - android/create-avd:
+      - android/create-avd:
           avd-name: Pixel_7_Pro
           system-image: system-images;android-29;google_apis_playstore;x86_64
           install: true
