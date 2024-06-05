@@ -13,6 +13,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.hamcrest.Matchers.allOf;
 
 import android.content.Intent;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
@@ -148,7 +151,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
 
-        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed())).perform(ViewActions.click());
+        onView(allOf(withId(R.id.btnDrawerLogin))).check(matches(isDisplayed())).perform(ViewActions.click());
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
