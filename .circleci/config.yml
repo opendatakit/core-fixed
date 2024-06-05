@@ -18,13 +18,8 @@ jobs:
           command: sudo chmod +x gradlew
       - android/create-avd:
           avd-name: Pixel_7_Pro
-          device: pixel_7_pro
           system-image: system-images;android-33;google_apis_playstore;x86_64
-          tag: google_apis_playstore
-          abi: x86_64
-          sdcard-path: sdcard.img
           install: true
-          force: true
       - android/start-emulator:
           avd-name: Pixel_7_Pro
           no-window: true
