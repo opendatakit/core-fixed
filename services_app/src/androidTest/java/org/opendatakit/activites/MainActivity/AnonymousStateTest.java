@@ -1,8 +1,10 @@
 package org.opendatakit.activites.MainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -75,7 +77,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
-        onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
+        onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(SERVER_URL)));
@@ -88,7 +90,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.tvLastSyncTimeMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         onView(withId(R.id.btnSignInMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpen)).perform(click());
 
         onView(withId(R.id.drawer_resolve_conflict)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_switch_sign_in_type)).check(matches(isDisplayed()));
@@ -121,7 +123,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyToolbarSyncItemClick() {
-        onView(withId(R.id.action_sync)).perform(ViewActions.click());
+        onView(withId(R.id.action_sync)).perform(click());
         Intents.intended(IntentMatchers.hasComponent(SyncActivity.class.getName()));
     }
 
@@ -129,16 +131,16 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
     public void verifyDrawerResolveConflictsClick() {
         onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 3000));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-        onView(withId(R.id.drawer_resolve_conflict)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.drawer_resolve_conflict)).perform(click());
         onView(isRoot()).perform(waitFor(2000));
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 
     @Test
     public void verifyDrawerSwitchSignInTypeClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-        onView(withId(R.id.drawer_switch_sign_in_type)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.drawer_switch_sign_in_type)).perform(click());
 
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
 
@@ -149,9 +151,9 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpen)).perform(click());
 
-        onView(allOf(withId(R.id.btnDrawerLogin))).check(matches(isDisplayed())).perform(ViewActions.click());
+        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(click());
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));

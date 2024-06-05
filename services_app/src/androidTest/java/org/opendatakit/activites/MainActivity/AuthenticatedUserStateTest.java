@@ -1,7 +1,9 @@
 package org.opendatakit.activites.MainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
@@ -194,12 +196,10 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 2000));
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
 
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
-        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed()));
-        onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
+        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(click());
+
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
