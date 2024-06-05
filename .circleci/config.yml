@@ -1,3 +1,4 @@
+
 version: 2.1
 
 orbs:
@@ -8,7 +9,7 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: 2xlarge
+      resource-class: xlarge
       tag: 2024.01.1
 
     steps:
@@ -17,11 +18,11 @@ jobs:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
       - android/create-avd:
-          avd-name: avd
+          avd-name: Pixel_7_Pro
+          system-image: system-images;android-33;google_apis_playstore;x86_64
           install: true
-          system-image: system-images;android-29;default;x86
       - android/start-emulator:
-          avd-name: avd
+          avd-name: Pixel_7_Pro
           no-window: true
           restore-gradle-cache-prefix: v1
           memory: 4096
