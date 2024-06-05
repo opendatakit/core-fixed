@@ -31,7 +31,7 @@ jobs:
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:
