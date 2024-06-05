@@ -10,6 +10,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
 
+import static org.hamcrest.Matchers.allOf;
+
 import android.content.Intent;
 
 import androidx.test.espresso.action.ViewActions;
@@ -147,7 +149,8 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 2000));
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
 
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
+        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed()));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
