@@ -1,8 +1,8 @@
+
 version: 2.1
 
 orbs:
   android: circleci/android@2.4.0
-
 jobs:
   test:
     description: Runs unit tests and instrumented tests on the Android Common
@@ -16,9 +16,10 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
+
       - android/create-avd:
           avd-name: Pixel_7_Pro
-          system-image: system-images;android-33;google_apis_playstore;x86_64
+          system-image: system-images;android-29;google_apis_playstore;x86_64
           install: true
       - android/start-emulator:
           avd-name: Pixel_7_Pro
@@ -27,13 +28,10 @@ jobs:
           memory: 4096
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
       - android/disable-animations
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew testSnapshotDebugUnitTest --info
-      - run:
-          name: Run Instrumented Tests
-          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
-          timeout: 30m
+      - android/run-tests:
+          test-command: ./gradlew testSnapshotDebugUnitTest
+      - android/run-tests:
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:
@@ -42,12 +40,6 @@ jobs:
       - store_artifacts:
           name: Store Test Reports
           path: services_app/build/reports
-      - run:
-          name: Collect ADB Logs
-          command: adb logcat -d > adb_log.txt
-      - store_artifacts:
-          name: Store ADB Logs
-          path: adb_log.txt
 
   build:
     docker:
@@ -61,12 +53,12 @@ jobs:
           cache-prefix: v1
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies --info
+          command: ./gradlew androidDependencies
       - android/save-gradle-cache:
           cache-prefix: v1
       - run:
           name: Build Services
-          command: ./gradlew assembleSnapshotDebug --info
+          command: ./gradlew assembleSnapshotDebug
       - store_artifacts:
           name: Store Build Artifacts
           path: services_app/build/outputs/apk
