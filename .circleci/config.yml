@@ -8,7 +8,7 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: large
+      resource-class: xlarge
       tag: 2024.01.1
 
     steps:
@@ -17,15 +17,19 @@ jobs:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
       - android/create-avd:
-          avd-name: avd
-          install: true
-          system-image: system-images;android-29;default;x86
+          avd-name: Pixel_7_Pro
+          device: pixel_7_pro
+          system-image: system-images;android-33;google_apis_playstore;x86_64
+          tag: google_apis_playstore
+          abi: x86_64
+          sdcard-path: sdcard.img
+          force: true
       - android/start-emulator:
-          avd-name: avd
+          avd-name: Pixel_7_Pro
           no-window: true
           restore-gradle-cache-prefix: v1
-          memory: 4096 
-          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
+          memory: 4096
+          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
       - android/disable-animations
       - run:
           name: Run Unit Tests
@@ -33,7 +37,7 @@ jobs:
       - run:
           name: Run Instrumented Tests
           command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
-          no-output-timeout: 30m
+          timeout: 30m
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:
