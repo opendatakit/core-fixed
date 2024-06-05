@@ -9,6 +9,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -16,16 +17,19 @@ import static com.google.common.truth.Truth.assertThat;
 
 import static org.hamcrest.Matchers.allOf;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -153,12 +157,15 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
-        onView(withId(R.id.toolbarDrawerHeader)).perform(scrollTo());
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(ViewActions.click());
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
-        onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
+        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        Espresso.onIdle();
+
+        onView(withContentDescription(context.getString(R.string.drawer_sign_out_button_text))).perform(click());
+
+        onView(withId(R.id.tvUserStateMain)).check(matches(withText(context.getString(R.string.logged_out))));
+        onView(withId(R.id.btnDrawerLogin)).check(matches(withText(context.getString(R.string.drawer_sign_in_button_text))));
         onView(withId(R.id.btnSignInMain)).check(matches(isDisplayed()));
     }
 
