@@ -146,12 +146,9 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 2000));
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
 
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
-        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed()));
-        onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
+        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed())).perform(ViewActions.click());
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
