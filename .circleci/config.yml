@@ -13,7 +13,6 @@ jobs:
 
     steps:
       - checkout
-
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
