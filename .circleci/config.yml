@@ -1,8 +1,8 @@
-
 version: 2.1
 
 orbs:
   android: circleci/android@2.4.0
+
 jobs:
   test:
     description: Runs unit tests and instrumented tests on the Android Common
@@ -13,30 +13,50 @@ jobs:
 
     steps:
       - checkout
+
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
 
       - android/create-avd:
           avd-name: Pixel_7_Pro
-          system-image: system-images;android-29;google_apis_playstore;x86_64
+          system-image: system-images;android-30;google_apis_playstore;x86_64
           install: true
+
+      - run:
+          name: Start ADB server
+          command: adb start-server
+
       - android/start-emulator:
           avd-name: Pixel_7_Pro
           no-window: true
           restore-gradle-cache-prefix: v1
           memory: 4096
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
+
       - android/disable-animations
+
+      - run:
+          name: Wait for Emulator to be Ready
+          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'  # Ensures the emulator is fully booted
+
+      - run:
+          name: Restart ADB server
+          command: adb kill-server && adb start-server  # Restart ADB server to avoid version mismatch issues
+
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
+
       - android/run-tests:
           test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+
       - android/save-gradle-cache:
           cache-prefix: v1
+
       - store_artifacts:
           name: Store Test Results
           path: services_app/build/outputs/androidTest-results
+
       - store_artifacts:
           name: Store Test Reports
           path: services_app/build/reports
@@ -44,24 +64,32 @@ jobs:
   build:
     docker:
       - image: cimg/android:2024.01
+
     steps:
       - checkout
+
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
+
       - android/restore-gradle-cache:
           cache-prefix: v1
+
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+
       - android/save-gradle-cache:
           cache-prefix: v1
+
       - run:
           name: Build Services
           command: ./gradlew assembleSnapshotDebug
+
       - store_artifacts:
           name: Store Build Artifacts
           path: services_app/build/outputs/apk
+
       - persist_to_workspace:
           root: .
           paths:
