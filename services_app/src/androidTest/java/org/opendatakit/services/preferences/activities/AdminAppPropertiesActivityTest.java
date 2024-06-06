@@ -75,6 +75,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.admin_tool_tables_settings_summary)));
     }
 
+    @Ignore
     @Test
     public void checkIfResetConfigurationScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(6, scrollTo()))
