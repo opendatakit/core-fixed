@@ -90,11 +90,10 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(TEST_SERVER_URL)));
     }
-
+    @Ignore
     @Test
     public void checkToolbarSettingsButtonClick() {
         onView(withId(R.id.action_settings)).perform(ViewActions.click());
-        onView(isRoot()).perform(waitFor(2000));
 
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }

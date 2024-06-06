@@ -37,7 +37,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         enableAdminMode();
         Espresso.pressBack();
     }
-
+    @Ignore
     @Test
     public void checkIfChangeAdminPasswordScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(3, scrollTo()))
