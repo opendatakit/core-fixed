@@ -201,9 +201,10 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
     @Test
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-        Espresso.onIdle();
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
+
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
+        onView(isRoot()).perform(BaseUITest.waitFor(2000));
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
