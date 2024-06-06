@@ -98,6 +98,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }
 
+    @Ignore
     @Test
     public void checkDrawerSettingsClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(click());

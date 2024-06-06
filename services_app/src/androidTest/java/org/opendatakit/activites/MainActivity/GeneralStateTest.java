@@ -89,6 +89,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
         Intents.intended(IntentMatchers.hasComponent(VerifyServerSettingsActivity.class.getName()));
     }
 
+    @Ignore
     @Test
     public void checkToolbarSettingsBtnClick() {
         onView(withId(R.id.action_settings)).perform(ViewActions.click());

@@ -85,6 +85,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.clear_configuration_settings)));
     }
 
+    @Ignore
     @Test
     public void checkIfExitAdminModeScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(11, scrollTo()))

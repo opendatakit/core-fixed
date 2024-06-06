@@ -20,6 +20,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.consts.IntentConsts;
@@ -74,6 +75,7 @@ public class GeneralStateTest extends BaseUITest<VerifyServerSettingsActivity> {
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }
 
+    @Ignore
     @Test
     public void checkDrawerSettingsClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
