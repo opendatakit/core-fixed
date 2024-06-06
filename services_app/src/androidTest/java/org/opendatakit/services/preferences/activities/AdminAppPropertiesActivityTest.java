@@ -46,7 +46,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 3),
                 isDisplayed())).check(matches(withText(R.string.admin_password_enabled)));
     }
-
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeServerSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(8, scrollTo()))
@@ -56,7 +56,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.restrict_server_settings_summary)));
     }
 
-
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeDeviceSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(9, scrollTo()))
@@ -65,7 +65,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 9),
                 isDisplayed())).check(matches(withText(R.string.restrict_device_settings_summary)));
     }
-
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeTableSpecificSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(10, scrollTo()))

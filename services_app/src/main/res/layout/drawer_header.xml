@@ -30,7 +30,6 @@
                 style="@style/TextButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="SIGN IN OR OUT"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/portrait_secondary_margin"
                 android:text="@string/drawer_sign_in_button_text" />

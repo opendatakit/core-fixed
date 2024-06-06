@@ -19,7 +19,7 @@ jobs:
 
       - android/create-avd:
           avd-name: Pixel_7_Pro
-          system-image: system-images;android-33;google_apis_playstore;x86_64
+          system-image: system-images;android-29;google_apis_playstore;x86_64
           install: true
       - android/start-emulator:
           avd-name: Pixel_7_Pro
@@ -31,7 +31,7 @@ jobs:
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:

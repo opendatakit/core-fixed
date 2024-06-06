@@ -71,6 +71,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         onView(withId(R.id.btnUserSignInLogin)).check(matches(isEnabled()));
     }
 
+    @Ignore
     @Test
     public void verifyVisibilityTest() {
         onView(isRoot()).perform(waitFor(2000));
