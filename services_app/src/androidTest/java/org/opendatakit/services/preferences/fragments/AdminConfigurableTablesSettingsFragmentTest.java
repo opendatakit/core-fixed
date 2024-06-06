@@ -25,6 +25,7 @@ import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -94,7 +95,7 @@ public class AdminConfigurableTablesSettingsFragmentTest extends BaseUITest<AppP
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.exit_admin_mode)),
                         click()));
 
-        onView(isRoot()).perform(waitFor(WAIT_TIME));
+        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
 
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.odkx_tables)),
