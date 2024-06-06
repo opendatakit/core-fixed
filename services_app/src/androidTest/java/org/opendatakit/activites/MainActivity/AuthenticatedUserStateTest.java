@@ -32,6 +32,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -200,15 +201,16 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
     @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpen)).perform(click());
 
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
-        onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), TestConsts.WAIT_TIME));
+        onView(withId(R.id.btnDrawerLogin)).perform(click());
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.WAIT_TIME));
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
 
         onView(withId(R.id.btnSignInMain)).check(matches(isDisplayed()));
     }
+
 }

@@ -102,7 +102,7 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.exit_admin_mode)),
                         click()));
-        onView(isRoot()).perform(waitFor(1000));
+        onView(isRoot()).perform(waitFor(WAIT_TIME));
 
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.preferences)),

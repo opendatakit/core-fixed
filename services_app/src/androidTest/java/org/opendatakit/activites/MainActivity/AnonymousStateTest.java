@@ -34,6 +34,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -135,11 +136,11 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerResolveConflictsClick() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 3000));
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), TestConsts.WAIT_TIME));
 
         onView(withId(R.id.btnDrawerOpen)).perform(click());
         onView(withId(R.id.drawer_resolve_conflict)).perform(click());
-        onView(isRoot()).perform(waitFor(2000));
+        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 

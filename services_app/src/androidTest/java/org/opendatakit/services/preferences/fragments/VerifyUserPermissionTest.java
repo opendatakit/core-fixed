@@ -57,15 +57,15 @@ public class VerifyUserPermissionTest extends BaseUITest<AppPropertiesActivity> 
         onView(withId(androidx.preference.R.id.recycler_view)).perform(RecyclerViewActions.actionOnItem(
                 hasDescendant(withText(R.string.verify_server_settings_header)), click()));
 
-        onView(isRoot()).perform(BaseUITest.waitForView(withText(R.string.configure_server_settings), 3000));
+        onView(isRoot()).perform(BaseUITest.waitForView(withText(R.string.configure_server_settings), WAIT_TIME));
         onView(withText(R.string.configure_server_settings))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
 
-        onView(isRoot()).perform(BaseUITest.waitForView(allOf(withId(android.R.id.button1), withText(R.string.yes)), 2000));
+        onView(isRoot()).perform(BaseUITest.waitForView(allOf(withId(android.R.id.button1), withText(R.string.yes)), WAIT_TIME));
         onView(allOf(withId(android.R.id.button1), withText(R.string.yes))).perform(click());
 
-        onView(isRoot()).perform(BaseUITest.waitFor(1500));
+        onView(isRoot()).perform(BaseUITest.waitFor(WAIT_TIME));
         intended(hasComponent(VerifyServerSettingsActivity.class.getName()));
     }
 

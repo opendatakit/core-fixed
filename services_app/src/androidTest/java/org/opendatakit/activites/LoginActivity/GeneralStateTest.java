@@ -28,6 +28,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -62,7 +63,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
     }
     @Test
     public void verifyValuesTest() {
-        onView(isRoot()).perform(waitFor(2000));
+        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
 
         onView(withId(R.id.tvTitleLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
         onView(withId(R.id.btnAnonymousSignInLogin)).check(matches(withText(R.string.anonymous_user)));
@@ -74,7 +75,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
     @Ignore
     @Test
     public void verifyVisibilityTest() {
-        onView(isRoot()).perform(waitFor(2000));
+        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
         onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).perform(click());
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
