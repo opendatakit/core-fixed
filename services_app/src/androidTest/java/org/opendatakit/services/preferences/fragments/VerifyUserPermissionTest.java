@@ -8,6 +8,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
@@ -21,6 +22,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -47,18 +49,27 @@ public class VerifyUserPermissionTest extends BaseUITest<AppPropertiesActivity> 
         intended(hasComponent(VerifyServerSettingsActivity.class.getName()));
     }
 
+
     @Test
     public void whenVerifyUserPermissionIsClicked_configureServerUrl() {
         resetConfiguration();
-        onView(withId(androidx.preference.R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.verify_server_settings_header)),
-                        click()));
+
+        onView(withId(androidx.preference.R.id.recycler_view)).check(matches(isDisplayed()));
+        onView(withId(androidx.preference.R.id.recycler_view)).perform(RecyclerViewActions.actionOnItem(
+                hasDescendant(withText(R.string.verify_server_settings_header)), click()));
+
+        onView(isRoot()).perform(BaseUITest.waitForView(withText(R.string.configure_server_settings), TestConsts.WAIT_TIME));
         onView(withText(R.string.configure_server_settings))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
+
+        onView(isRoot()).perform(BaseUITest.waitForView(allOf(withId(android.R.id.button1), withText(R.string.yes)), TestConsts.WAIT_TIME));
         onView(allOf(withId(android.R.id.button1), withText(R.string.yes))).perform(click());
+
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.WAIT_TIME));
         intended(hasComponent(VerifyServerSettingsActivity.class.getName()));
     }
+
 
     @Override
     protected Intent getLaunchIntent() {
