@@ -39,10 +39,9 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         activityRule.getActivity().runOnUiThread(() -> {
             PropertiesSingleton props = activityRule.getActivity().getProps();
             assertThat(props).isNotNull();
+            enableAdminMode();
             IdlingResource.decrement();
         });
-        enableAdminMode();
-        IdlingResource.decrement();
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         Espresso.pressBack();
     }

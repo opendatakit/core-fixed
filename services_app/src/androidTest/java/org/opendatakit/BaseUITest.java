@@ -246,7 +246,6 @@ public abstract class BaseUITest<T extends Activity> {
         };
     }
     public static void enableAdminMode() {
-        IdlingResource.increment();
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.user_restrictions)),
                         click()));
