@@ -61,12 +61,13 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activityRule.getActivity().updateViewModelWithProps();
-            IdlingResource.decrement();
         });
+        IdlingResource.decrement();
     }
     @Test
     public void verifyValuesTest() {
         IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());
+        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
         onView(withId(R.id.tvTitleLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
         onView(withId(R.id.btnAnonymousSignInLogin)).check(matches(withText(R.string.anonymous_user)));
         onView(withId(R.id.btnUserSignInLogin)).check(matches(withText(R.string.authenticated_user)));
@@ -76,14 +77,17 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
     }
 
-    @Ignore
     @Test
     public void verifyVisibilityTest() {
+        IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());
+
         onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
         onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).perform(click());
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
+        IdlingRegistry.getInstance().unregister(IdlingResource.getIdlingResource());
+
     }
 
 
@@ -95,12 +99,16 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(TEST_SERVER_URL)));
     }
-    @Ignore
     @Test
     public void checkToolbarSettingsButtonClick() {
+        IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());
+        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
+
         onView(withId(R.id.action_settings)).perform(ViewActions.click());
 
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
+        IdlingRegistry.getInstance().unregister(IdlingResource.getIdlingResource());
+
     }
 
     @Ignore

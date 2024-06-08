@@ -121,6 +121,7 @@ public abstract class BaseUITest<T extends Activity> {
     }
 
     public void resetConfiguration() {
+        IdlingResource.increment();
         PropertiesSingleton mProps = CommonToolProperties.get(getContext(), APP_NAME);
         mProps.clearSettings();
         LocalizationUtils.clearTranslations();
@@ -129,6 +130,7 @@ public abstract class BaseUITest<T extends Activity> {
             f.delete();
         }
         ODKFileUtils.clearConfiguredToolFiles(APP_NAME);
+        IdlingResource.decrement();
     }
 
     public static ViewAction setChecked(final boolean checked) {
