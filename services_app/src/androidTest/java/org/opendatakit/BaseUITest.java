@@ -246,6 +246,7 @@ public abstract class BaseUITest<T extends Activity> {
         };
     }
     public static void enableAdminMode() {
+        IdlingResource.increment();
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.user_restrictions)),
                         click()));
@@ -255,7 +256,7 @@ public abstract class BaseUITest<T extends Activity> {
         onView(withId(R.id.pwd_field)).perform(click());
         onView(withId(R.id.pwd_field)).perform(replaceText(TEST_PASSWORD));
         onView(withId(R.id.positive_button)).perform(ViewActions.click());
-
+        IdlingResource.decrement();
     }
 
     protected Activity getActivity() {
