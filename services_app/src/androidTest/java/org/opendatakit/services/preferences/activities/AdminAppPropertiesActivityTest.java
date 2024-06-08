@@ -14,7 +14,6 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 
 import android.content.Intent;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -26,7 +25,6 @@ import org.opendatakit.IdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
-import org.opendatakit.services.sync.actions.activities.LoginActivity;
 
 public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActivity> {
 
@@ -36,14 +34,15 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
 
     @Override
     protected void setUpPostLaunch() {
+        IdlingResource.increment();
+
         activityRule.getActivity().runOnUiThread(() -> {
             PropertiesSingleton props = activityRule.getActivity().getProps();
             assertThat(props).isNotNull();
-            enableAdminMode();
-            IdlingResource.decrement();
         });
+        enableAdminMode();
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
-        Espresso.pressBack();
+        IdlingResource.decrement();
     }
 
     @Test
