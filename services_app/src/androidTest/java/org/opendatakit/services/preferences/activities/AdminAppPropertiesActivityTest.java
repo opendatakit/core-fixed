@@ -9,7 +9,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
-
 import static org.hamcrest.Matchers.allOf;
 import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 
@@ -19,7 +18,6 @@ import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingRegistry;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.IdlingResource;
@@ -36,13 +34,13 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
             assertThat(props).isNotNull();
         });
         enableAdminMode();
-        IdlingResource.decrement();
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         Espresso.pressBack();
+        IdlingResource.decrement();
     }
     @Test
     public void checkIfChangeAdminPasswordScreen_isVisible() {
-        IdlingRegistry.getInstance().unregister(IdlingResource.getIdlingResource());
+        IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(3, scrollTo()))
                 .check(matches(atPosition(3, hasDescendant(withText(R.string.change_admin_password)))));
         onView(allOf(withId(android.R.id.summary),
