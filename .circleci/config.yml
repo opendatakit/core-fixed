@@ -20,7 +20,7 @@ jobs:
       - android/create-avd:
           avd-name: avd
           install: true
-          system-image: system-images;android-31;google_apis;x86_64
+          system-image: system-images;android-30;google_apis;x86
 
       - run:
           name: Start ADB server

@@ -17,6 +17,7 @@ import android.Manifest;
 import android.content.Intent;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
@@ -28,6 +29,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.IdlingResource;
 import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
@@ -63,13 +65,14 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
     }
     @Test
     public void verifyValuesTest() {
-        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
-
+        IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());
         onView(withId(R.id.tvTitleLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
         onView(withId(R.id.btnAnonymousSignInLogin)).check(matches(withText(R.string.anonymous_user)));
         onView(withId(R.id.btnUserSignInLogin)).check(matches(withText(R.string.authenticated_user)));
         onView(withId(R.id.btnAnonymousSignInLogin)).check(matches(isEnabled()));
         onView(withId(R.id.btnUserSignInLogin)).check(matches(isEnabled()));
+        IdlingRegistry.getInstance().unregister(IdlingResource.getIdlingResource());
+
     }
 
     @Ignore

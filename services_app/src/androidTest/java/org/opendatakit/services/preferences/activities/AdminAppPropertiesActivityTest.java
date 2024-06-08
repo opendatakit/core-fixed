@@ -16,11 +16,13 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 import android.content.Intent;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.IdlingRegistry;
 
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.IdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -36,6 +38,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         enableAdminMode();
         Espresso.pressBack();
+        IdlingResource.decrement();
     }
     @Ignore
     @Test
@@ -94,11 +97,16 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
 
     @Test
     public void checkIfVerifyUserPermissionScreen_isVisible() {
+        IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(2, scrollTo()))
                 .check(matches(atPosition(2, hasDescendant(withText(R.string.verify_server_settings_header)))));
         onView(allOf(withId(android.R.id.summary),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 2),
                 isDisplayed())).check(matches(withText(R.string.click_to_verify_server_settings)));
+
+        IdlingRegistry.getInstance().unregister(IdlingResource.getIdlingResource());
+
     }
 
     @After
