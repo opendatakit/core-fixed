@@ -18,20 +18,20 @@ jobs:
           command: sudo chmod +x gradlew
 
       - android/create-avd:
-          avd-name: Pixel_7_Pro
-          system-image: system-images;android-30;default;x86
+          avd-name: avd
           install: true
+          system-image: system-images;android-29;default;x86
 
       - run:
           name: Start ADB server
           command: adb start-server
 
       - android/start-emulator:
-          avd-name: Pixel_7_Pro
-          no-window: true
-          restore-gradle-cache-prefix: v1
-          memory: 4096
-          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
+                avd-name: avd
+                no-window: true
+                restore-gradle-cache-prefix: v1
+                memory: 4096
+                post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
 
       - android/disable-animations
 
