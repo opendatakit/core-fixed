@@ -19,7 +19,7 @@ jobs:
 
       - android/create-avd:
           avd-name: Pixel_7_Pro
-          system-image: system-images;android-30;google_apis;x86
+          system-image: system-images;android-30;default;x86
           install: true
 
       - run:
