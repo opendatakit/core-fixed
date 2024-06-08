@@ -16,12 +16,10 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.intent.Intents;
 
-import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.IdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -34,6 +32,7 @@ public class GeneralDeviceSettingsFragmentTest extends BaseUITest<AppPropertiesA
         activityScenario.onActivity(activity -> {
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
+            IdlingResource.decrement();
         });
 
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));

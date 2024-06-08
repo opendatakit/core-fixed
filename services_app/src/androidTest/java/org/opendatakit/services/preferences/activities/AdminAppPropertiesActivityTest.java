@@ -34,11 +34,11 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         activityScenario.onActivity(activity -> {
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
+            IdlingResource.decrement();
         });
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         enableAdminMode();
         Espresso.pressBack();
-        IdlingResource.decrement();
     }
     @Ignore
     @Test

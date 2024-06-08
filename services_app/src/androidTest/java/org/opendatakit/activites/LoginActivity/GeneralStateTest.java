@@ -61,6 +61,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activityRule.getActivity().updateViewModelWithProps();
+            IdlingResource.decrement();
         });
     }
     @Test

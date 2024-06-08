@@ -21,9 +21,9 @@ import androidx.test.espresso.Espresso;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.IdlingResource;
 import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -37,6 +37,7 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
         activityScenario.onActivity(activity -> {
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
+            IdlingResource.decrement();
         });
         enableAdminMode();
         Espresso.pressBack();
