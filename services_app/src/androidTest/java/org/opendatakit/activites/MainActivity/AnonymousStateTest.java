@@ -3,14 +3,7 @@ package org.opendatakit.activites.MainActivity;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import static androidx.test.espresso.action.ViewActions.scrollTo;
-=======
->>>>>>> 40da2db5 ( Fix for UI Tests)
-=======
-import static androidx.test.espresso.action.ViewActions.scrollTo;
->>>>>>> 94872db3 ( Fix for UI Tests)
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -23,18 +16,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
 
 import static org.hamcrest.Matchers.allOf;
-<<<<<<< HEAD
-=======
-
-import android.content.Context;
-import android.content.Intent;
-<<<<<<< HEAD
->>>>>>> 45a6791e ( Fix for UI Tests)
-=======
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
->>>>>>> d64f219e ( Fix for UI Tests)
 
 import android.content.Context;
 import android.content.Intent;
@@ -179,74 +160,14 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
     @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-<<<<<<< HEAD
         Espresso.onIdle();
         onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
-=======
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
->>>>>>> 5bcc7fe2 ( Fix for UI Tests)
-=======
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
-        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed()));
->>>>>>> 45a6791e ( Fix for UI Tests)
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
-=======
-        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed())).perform(ViewActions.click());
->>>>>>> a118d2ac ( Fix for UI Tests)
-=======
-        onView(allOf(withId(R.id.btnDrawerLogin))).check(matches(isDisplayed())).perform(ViewActions.click());
->>>>>>> d64f219e ( Fix for UI Tests)
-=======
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(click());
->>>>>>> 40da2db5 ( Fix for UI Tests)
-=======
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(ViewActions.click());
->>>>>>> b1589db3 ( Fix for UI Tests)
-=======
-        closeSoftKeyboard();
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(scrollTo()).perform(ViewActions.click());
->>>>>>> 94872db3 ( Fix for UI Tests)
-=======
-        onView(withId(R.id.toolbarDrawerHeader)).perform(scrollTo());
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(ViewActions.click());
->>>>>>> b0874724 ( Fix for UI Tests)
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
 
-=======
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
-=======
->>>>>>> 5aac9490 ( Fix for UI Tests)
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
-        Espresso.onIdle();
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
-        onView(withContentDescription("SIGN IN OR OUT")).perform(click());
-
-<<<<<<< HEAD
-        onView(withContentDescription(context.getString(R.string.drawer_sign_out_button_text))).perform(click());
-
-        onView(withId(R.id.tvUserStateMain)).check(matches(withText(context.getString(R.string.logged_out))));
-        onView(withId(R.id.btnDrawerLogin)).check(matches(withText(context.getString(R.string.drawer_sign_in_button_text))));
->>>>>>> 3ca3e72c ( Fix for UI Tests)
-=======
-        onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
-        onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
->>>>>>> 5aac9490 ( Fix for UI Tests)
         onView(withId(R.id.btnSignInMain)).check(matches(isDisplayed()));
     }
 
@@ -258,8 +179,5 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         intent.putExtra(IntentConsts.INTENT_KEY_APP_NAME, APP_NAME);
         return intent;
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> d64f219e ( Fix for UI Tests)
 }

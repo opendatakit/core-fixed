@@ -75,29 +75,9 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
     @Ignore
     @Test
     public void verifyVisibilityTest() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        onView(isRoot()).perform(waitFor(2000));
-=======
         onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
->>>>>>> 924db666 (wait time constant added)
         onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).perform(click());
-=======
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
-        onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).perform(click());
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
->>>>>>> 22e6c7c0 ( Fix for UI Tests)
-=======
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), 3000));
-=======
-        onView(isRoot()).perform(waitFor(2000));
->>>>>>> a118d2ac ( Fix for UI Tests)
-        onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).check(matches(isDisplayed()));
-        onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).perform(click());
->>>>>>> 45a6791e ( Fix for UI Tests)
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
     }

@@ -3,14 +3,7 @@ package org.opendatakit.activites.MainActivity;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import static androidx.test.espresso.action.ViewActions.scrollTo;
-=======
->>>>>>> 40da2db5 ( Fix for UI Tests)
-=======
-import static androidx.test.espresso.action.ViewActions.scrollTo;
->>>>>>> 94872db3 ( Fix for UI Tests)
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -208,62 +201,11 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
     @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        Espresso.onIdle();
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
-=======
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        onView(isRoot()).perform(BaseUITest.waitFor(2000));
->>>>>>> 5bcc7fe2 ( Fix for UI Tests)
-=======
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), 2000));
-        onView(allOf(withId(R.id.btnDrawerLogin), isDisplayed())).check(matches(isDisplayed()));
->>>>>>> 45a6791e ( Fix for UI Tests)
-        onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
-=======
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(click());
-
->>>>>>> 40da2db5 ( Fix for UI Tests)
-=======
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(ViewActions.click());
->>>>>>> b1589db3 ( Fix for UI Tests)
-=======
-        closeSoftKeyboard();
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(scrollTo()).perform(ViewActions.click());
->>>>>>> 94872db3 ( Fix for UI Tests)
-=======
-        onView(withId(R.id.toolbarDrawerHeader)).perform(scrollTo());
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed())).perform(ViewActions.click());
->>>>>>> b0874724 ( Fix for UI Tests)
-=======
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
-        Espresso.onIdle();
-
-        onView(withContentDescription(context.getString(R.string.drawer_sign_out_button_text))).perform(click());
->>>>>>> 3ca3e72c ( Fix for UI Tests)
-=======
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-        Espresso.onIdle();
-        onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
-        onView(withContentDescription("SIGN IN OR OUT")).perform(click());
->>>>>>> 5aac9490 ( Fix for UI Tests)
-=======
         onView(withId(R.id.btnDrawerOpen)).perform(click());
 
         onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), TestConsts.WAIT_TIME));
         onView(withId(R.id.btnDrawerLogin)).perform(click());
         onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.WAIT_TIME));
->>>>>>> 924db666 (wait time constant added)
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));

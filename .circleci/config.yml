@@ -19,27 +19,7 @@ jobs:
 
       - android/create-avd:
           avd-name: Pixel_7_Pro
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-          system-image: system-images;android-29;google_apis_playstore;x86_64
-=======
-          system-image: system-images;android-33;google_apis_playstore;x86_64
->>>>>>> 9f1ae595 ( Fix for UI Tests)
-=======
-          system-image: system-images;android-29;google_apis_playstore;x86_64
->>>>>>> 3a2a597e ( Fix for UI Tests)
-=======
-          system-image: system-images;android-33;google_apis_playstore;x86_64
->>>>>>> 45a6791e ( Fix for UI Tests)
-=======
-          system-image: system-images;android-30;google_apis_playstore;x86_64
->>>>>>> 51a777b9 (attempt to stabilize 5)
-=======
           system-image: system-images;android-30;google_apis;x86
->>>>>>> 318f2cff (new system image)
           install: true
 
       - run:
@@ -52,36 +32,6 @@ jobs:
           restore-gradle-cache-prefix: v1
           memory: 4096
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-          environment:
-            TERM: dumb
->>>>>>> 5bcc7fe2 ( Fix for UI Tests)
-=======
->>>>>>> 76b97389 ( Fix for UI Tests)
-=======
-      - run:
-          name: Wait for Emulator
-          command: |
-            # Wait for the emulator to fully boot up
-            adb wait-for-device
-            sleep 30
-            adb shell input keyevent 82
-      - run:
-          name: Restart ADB Server
-          command: |
-            adb kill-server
-            adb start-server
-            adb devices
->>>>>>> c69c8a83 ( Fix for UI Tests)
-      - android/disable-animations
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
       - android/disable-animations
 
@@ -93,74 +43,12 @@ jobs:
           name: Restart ADB server
           command: adb kill-server && adb start-server  # Restart ADB server to avoid version mismatch issues
 
->>>>>>> 85dc4a48 (attempt to stabilize 3)
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
 
       - android/run-tests:
-<<<<<<< HEAD
-<<<<<<< HEAD
           test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
-<<<<<<< HEAD
-=======
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
-<<<<<<< HEAD
-          environment:
-            TERM: dumb
->>>>>>> 5bcc7fe2 ( Fix for UI Tests)
-=======
-          no-output-timeout: 1h
->>>>>>> e9ef26b7 ( Fix for UI Tests)
-=======
-          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
-          no-output-timeout: 30min
->>>>>>> c69c8a83 ( Fix for UI Tests)
-=======
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew testSnapshotDebugUnitTest --info
-      - run:
-          name: Run Instrumented Tests
-          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
-<<<<<<< HEAD
-=======
-      - android/disable-animations
-<<<<<<< HEAD
-      - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest --info
-      - android/run-tests:
-<<<<<<< HEAD
-          test-command:./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
->>>>>>> b9c61bc2 ( Fix for UI Tests)
-=======
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
->>>>>>> 418f0144 ( Fix for UI Tests)
-=======
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew testSnapshotDebugUnitTest --info
-      - run:
-          name: Run Instrumented Tests
-          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
->>>>>>> 83c7d35b ( Fix for UI Tests)
-          no-output-timeout: 30m
->>>>>>> 3fa89f75 ( Fix for UI Tests)
-=======
-          timeout: 30m
->>>>>>> 63c2d1c0 ( Fix for UI Tests)
-=======
-      - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest
-      - android/run-tests:
-<<<<<<< HEAD
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
->>>>>>> 3a2a597e ( Fix for UI Tests)
-=======
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
->>>>>>> 5df9181a ( Fix for UI Tests)
-=======
 
->>>>>>> 85dc4a48 (attempt to stabilize 3)
       - android/save-gradle-cache:
           cache-prefix: v1
 
