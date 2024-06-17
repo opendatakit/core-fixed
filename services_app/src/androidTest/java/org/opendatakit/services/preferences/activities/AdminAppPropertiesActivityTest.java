@@ -28,20 +28,18 @@ import org.opendatakit.services.R;
 
 public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActivity> {
 
-    @Rule
-    public ActivityTestRule<AppPropertiesActivity> activityRule = new ActivityTestRule<>(AppPropertiesActivity.class);
-
 
     @Override
     protected void setUpPostLaunch() {
-        activityRule.getActivity().runOnUiThread(() -> {
+        activityScenario.onActivity(activity -> {
             IdlingResource.increment();
-            PropertiesSingleton props = activityRule.getActivity().getProps();
+            PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
             IdlingResource.decrement();
         });
         enableAdminMode();
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
+
     }
 
     @Test
