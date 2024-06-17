@@ -14,20 +14,19 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 
 import android.content.Intent;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.IdlingRegistry;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.After;
-import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.IdlingResource;
+import org.opendatakit.RecyclerViewIdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
 
 public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActivity> {
-
 
     @Override
     protected void setUpPostLaunch() {
@@ -44,63 +43,98 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
 
     @Test
     public void checkIfChangeAdminPasswordScreen_isVisible() {
+        RecyclerView recyclerView = getActivity().findViewById(androidx.preference.R.id.recycler_view);
+        RecyclerViewIdlingResource idlingResource = new RecyclerViewIdlingResource(recyclerView);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(3, scrollTo()))
                 .check(matches(atPosition(3, hasDescendant(withText(R.string.change_admin_password)))));
         onView(allOf(withId(android.R.id.summary),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 3),
                 isDisplayed())).check(matches(withText(R.string.admin_password_enabled)));
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @Test
     public void checkIfManageAbilityToChangeServerSettingScreen_isVisible() {
+        RecyclerView recyclerView = getActivity().findViewById(androidx.preference.R.id.recycler_view);
+        RecyclerViewIdlingResource idlingResource = new RecyclerViewIdlingResource(recyclerView);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(8, scrollTo()))
                 .check(matches(atPosition(8, hasDescendant(withText(R.string.restrict_server)))));
         onView(allOf(withId(android.R.id.summary),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 8),
                 isDisplayed())).check(matches(withText(R.string.restrict_server_settings_summary)));
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @Test
     public void checkIfManageAbilityToChangeDeviceSettingScreen_isVisible() {
+        RecyclerView recyclerView = getActivity().findViewById(androidx.preference.R.id.recycler_view);
+        RecyclerViewIdlingResource idlingResource = new RecyclerViewIdlingResource(recyclerView);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(9, scrollTo()))
                 .check(matches(atPosition(9, hasDescendant(withText(R.string.restrict_device)))));
         onView(allOf(withId(android.R.id.summary),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 9),
                 isDisplayed())).check(matches(withText(R.string.restrict_device_settings_summary)));
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @Test
     public void checkIfManageAbilityToChangeTableSpecificSettingScreen_isVisible() {
+        RecyclerView recyclerView = getActivity().findViewById(androidx.preference.R.id.recycler_view);
+        RecyclerViewIdlingResource idlingResource = new RecyclerViewIdlingResource(recyclerView);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(10, scrollTo()))
                 .check(matches(atPosition(10, hasDescendant(withText(R.string.admin_tool_tables_settings)))));
         onView(allOf(withId(android.R.id.summary),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 10),
                 isDisplayed())).check(matches(withText(R.string.admin_tool_tables_settings_summary)));
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @Test
     public void checkIfResetConfigurationScreen_isVisible() {
+        RecyclerView recyclerView = getActivity().findViewById(androidx.preference.R.id.recycler_view);
+        RecyclerViewIdlingResource idlingResource = new RecyclerViewIdlingResource(recyclerView);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(6, scrollTo()))
                 .check(matches(atPosition(6, hasDescendant(withText(R.string.clear_settings)))));
         onView(allOf(withId(android.R.id.summary),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 6),
                 isDisplayed())).check(matches(withText(R.string.clear_configuration_settings)));
-    }
 
+        IdlingRegistry.getInstance().unregister(idlingResource);
+    }
 
     @Test
     public void checkIfExitAdminModeScreen_isVisible() {
+        RecyclerView recyclerView = getActivity().findViewById(androidx.preference.R.id.recycler_view);
+        RecyclerViewIdlingResource idlingResource = new RecyclerViewIdlingResource(recyclerView);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(11, scrollTo()))
                 .check(matches(atPosition(11, hasDescendant(withText(R.string.exit_admin_mode)))));
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @Test
     public void checkIfVerifyUserPermissionScreen_isVisible() {
+        RecyclerView recyclerView = getActivity().findViewById(androidx.preference.R.id.recycler_view);
+        RecyclerViewIdlingResource idlingResource = new RecyclerViewIdlingResource(recyclerView);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(2, scrollTo()))
                 .check(matches(atPosition(2, hasDescendant(withText(R.string.verify_server_settings_header)))));
         onView(allOf(withId(android.R.id.summary),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 2),
                 isDisplayed())).check(matches(withText(R.string.click_to_verify_server_settings)));
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @After
@@ -115,5 +149,4 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         intent.putExtra(IntentConsts.INTENT_KEY_SETTINGS_IN_ADMIN_MODE, true);
         return intent;
     }
-
 }
