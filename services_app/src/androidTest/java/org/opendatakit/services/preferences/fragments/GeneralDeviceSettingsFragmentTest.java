@@ -17,9 +17,9 @@ import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.IdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -32,6 +32,7 @@ public class GeneralDeviceSettingsFragmentTest extends BaseUITest<AppPropertiesA
         activityScenario.onActivity(activity -> {
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
+            IdlingResource.decrement();
         });
 
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
@@ -40,6 +41,7 @@ public class GeneralDeviceSettingsFragmentTest extends BaseUITest<AppPropertiesA
                         click()));
 
     }
+
 
     @Test
     public void whenTextFontSizeIsClicked_doChangeFontSize_checkIfSizeIsExtraLarge() {
