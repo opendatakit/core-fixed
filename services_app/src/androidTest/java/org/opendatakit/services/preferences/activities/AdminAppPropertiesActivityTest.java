@@ -15,35 +15,29 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 
 import android.content.Intent;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.opendatakit.BaseUITest;
-import org.opendatakit.RecyclerViewIdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
 
 @RunWith(AndroidJUnit4.class)
 public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActivity> {
-    private RecyclerViewIdlingResource recyclerViewIdlingResource;
 
     @Override
     protected void setUpPostLaunch() {
         activityScenario.onActivity(activity -> {
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
-            RecyclerView recyclerView = activity.findViewById(androidx.preference.R.id.recycler_view);
-            recyclerViewIdlingResource = new RecyclerViewIdlingResource(recyclerView);
-            IdlingRegistry.getInstance().register(recyclerViewIdlingResource);
         });
-        enableAdminMode();
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
-
+        enableAdminMode();
+        Espresso.pressBack();
     }
 
     @Test
@@ -122,9 +116,6 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
 
     @After
     public void tearDown() {
-        if (recyclerViewIdlingResource != null) {
-            IdlingRegistry.getInstance().unregister(recyclerViewIdlingResource);
-        }
         resetConfiguration();
     }
 
