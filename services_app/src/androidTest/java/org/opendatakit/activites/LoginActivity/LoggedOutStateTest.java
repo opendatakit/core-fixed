@@ -32,6 +32,7 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
     @Override
     protected void setUpPostLaunch() {
         activityScenario.onActivity(activity -> {
+            IdlingResource.increment();
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
 

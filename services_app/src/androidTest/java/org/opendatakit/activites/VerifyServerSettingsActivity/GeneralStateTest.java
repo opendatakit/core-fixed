@@ -49,7 +49,6 @@ public class GeneralStateTest extends BaseUITest<VerifyServerSettingsActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activity.updateViewModelWithProps();
-            IdlingResource.decrement();
         });
     }
 

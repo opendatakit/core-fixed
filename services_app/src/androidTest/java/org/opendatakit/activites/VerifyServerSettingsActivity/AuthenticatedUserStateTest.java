@@ -63,7 +63,6 @@ public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsA
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activityRule.getActivity().updateViewModelWithProps();
-            IdlingResource.decrement();
         });
         Espresso.onIdle();
     }

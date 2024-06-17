@@ -67,7 +67,6 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activityRule.getActivity().updateViewModelWithProps();
-            IdlingResource.decrement();
         });
         Espresso.onIdle();
     }

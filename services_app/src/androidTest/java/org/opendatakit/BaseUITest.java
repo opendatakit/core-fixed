@@ -87,7 +87,6 @@ public abstract class BaseUITest<T extends Activity> {
 
     @Before
     public void setUp() {
-        IdlingResource.increment();
         if (!isInitialized) {
             System.out.println("Intents.init() called");
             Intents.init();
@@ -96,13 +95,10 @@ public abstract class BaseUITest<T extends Activity> {
 
         activityScenario = ActivityScenario.launch(getLaunchIntent());
         setUpPostLaunch();
-        IdlingResource.decrement();
     }
 
     @After
     public void tearDown() throws Exception {
-        IdlingResource.increment();
-
         if (activityScenario != null) {
             activityScenario.close();
             activityScenario = null;
@@ -113,7 +109,6 @@ public abstract class BaseUITest<T extends Activity> {
             Intents.release();
             isInitialized = false;
         }
-        IdlingResource.decrement();
     }
 
 

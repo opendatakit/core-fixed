@@ -45,7 +45,6 @@ public class LoggedOutStateTest extends BaseUITest<SyncActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activity.updateViewModelWithProps();
-            IdlingResource.decrement();
         });
     }
 

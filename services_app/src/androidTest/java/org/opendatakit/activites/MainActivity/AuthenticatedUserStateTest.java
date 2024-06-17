@@ -64,7 +64,6 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activity.updateViewModelWithProps();
-            IdlingResource.decrement();
         });
 
     }

@@ -51,6 +51,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
     @Override
     protected void setUpPostLaunch() {
         activityRule.getActivity().runOnUiThread(() -> {
+            IdlingResource.increment();
             PropertiesSingleton props = activityRule.getActivity().getProps();
             assertThat(props).isNotNull();
 
