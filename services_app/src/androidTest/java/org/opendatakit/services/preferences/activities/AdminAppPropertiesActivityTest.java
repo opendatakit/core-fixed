@@ -34,15 +34,14 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
 
     @Override
     protected void setUpPostLaunch() {
-        IdlingResource.increment();
-
         activityRule.getActivity().runOnUiThread(() -> {
+            IdlingResource.increment();
             PropertiesSingleton props = activityRule.getActivity().getProps();
             assertThat(props).isNotNull();
+            IdlingResource.decrement();
         });
         enableAdminMode();
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
-        IdlingResource.decrement();
     }
 
     @Test
@@ -58,7 +57,6 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
     @Test
     public void checkIfManageAbilityToChangeServerSettingScreen_isVisible() {
         IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());
-
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(8, scrollTo()))
                 .check(matches(atPosition(8, hasDescendant(withText(R.string.restrict_server)))));
         onView(allOf(withId(android.R.id.summary),

@@ -30,6 +30,7 @@ public class GeneralAppPropertiesActivityTest extends BaseUITest<AppPropertiesAc
     @Override
     protected void setUpPostLaunch() {
         activityScenario.onActivity(activity -> {
+            IdlingResource.increment();
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
             IdlingResource.decrement();

@@ -35,7 +35,6 @@ public class UpdateServerSettingsFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-        IdlingResource.increment();
         String APP_NAME = "testAppName";
 
         Intent intent = new Intent(getContext(), MainActivity.class);
@@ -46,7 +45,6 @@ public class UpdateServerSettingsFragmentTest {
         onView(withId(R.id.drawer_server_login)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_server_login)).perform(ViewActions.click());
         Intents.init();
-        IdlingResource.decrement();
     }
 
     @Ignore // OUTREACHY-BROKEN-TEST
