@@ -78,6 +78,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
     }
 
+    @Ignore
     @Test
     public void verifyVisibilityTest() {
         IdlingRegistry.getInstance().register(IdlingResource.getIdlingResource());

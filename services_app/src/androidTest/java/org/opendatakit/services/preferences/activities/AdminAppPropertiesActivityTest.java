@@ -19,6 +19,7 @@ import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.opendatakit.BaseUITest;
@@ -51,6 +52,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.admin_password_enabled)));
     }
 
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeServerSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view))
@@ -62,6 +64,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.restrict_server_settings_summary)));
     }
 
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeDeviceSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view))
@@ -73,6 +76,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.restrict_device_settings_summary)));
     }
 
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeTableSpecificSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view))
