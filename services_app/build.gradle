@@ -1,6 +1,8 @@
 /**************************************************************************************************
  GRADLE CONFIG
- *************************************************************************************************/
+ **************************************************************************************************/
+
+apply plugin: 'jacoco'
 
 if ((new File(gradle.local)).exists()) {
     apply from: gradle.local
@@ -15,7 +17,6 @@ applicationScripts.each {
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'jacoco'
 
 android {
     testOptions {
@@ -32,6 +33,7 @@ android {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
         testInstrumentationRunner(instrumentationRunner)
+
     }
 
     buildFeatures {
@@ -77,6 +79,7 @@ android {
         }
         debug {
             debuggable(true)
+            testCoverageEnabled = true
         }
     }
 
@@ -97,39 +100,6 @@ android {
         singleVariant("snapshotDebug")
         singleVariant("primaryRelease")
     }
-}
-
-jacoco {
-    toolVersion = "0.8.8"
-}
-
-tasks.withType(Test) {
-    finalizedBy 'jacocoTestReport'
-}
-
-task jacocoTestReport(type: JacocoReport) {
-    dependsOn 'testSnapshotDebugUnitTest'
-    dependsOn 'createDebugCoverageReport'
-
-    reports {
-        xml.required = true
-        csv.required = false
-        html.required = true
-        html.destination file("${buildDir}/jacocoHtml")
-    }
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*']
-    def mainSrc = "${project.projectDir}/src/main/java"
-
-    sourceDirectories.setFrom(files([mainSrc]))
-    classDirectories.setFrom(files([
-            fileTree(dir: "${buildDir}/intermediates/javac/snapshotDebug", excludes: fileFilter),
-            fileTree(dir: "${buildDir}/intermediates/javac/debug", excludes: fileFilter)
-    ]))
-    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
-            'jacoco/testSnapshotDebugUnitTest.exec',
-            'outputs/code-coverage/connected/*coverage.ec'
-    ]))
 }
 
 configurations.all {
@@ -201,4 +171,23 @@ dependencies {
 task grantPermissionForODKXApp {
     dependsOn grantServicesReadExternalStoragePermission
     dependsOn grantServicesWriteExternalStoragePermission
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testSnapshotDebugUnitTest']) {
+    reports {
+        xml.required = false
+        html.required = true
+        html.destination file("${buildDir}/jacocoHtml")
+        csv.required = true
+        csv.destination file("${buildDir}/jacoco.csv")
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${project.buildDir}/intermediates/javac/snapshotDebug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.from(fileTree(dir: "${project.buildDir}/jacoco", includes: [
+            "testSnapshotDebugUnitTest.exec", "outputs/code-coverage/connected/*coverage.ec"
+    ]))
 }
