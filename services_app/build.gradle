@@ -1,5 +1,5 @@
 /**************************************************************************************************
-                                        GRADLE CONFIG
+ GRADLE CONFIG
  *************************************************************************************************/
 
 if ((new File(gradle.local)).exists()) {
@@ -15,6 +15,7 @@ applicationScripts.each {
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'jacoco'
 
 android {
     testOptions {
@@ -31,7 +32,6 @@ android {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
         testInstrumentationRunner(instrumentationRunner)
-
     }
 
     buildFeatures {
@@ -99,6 +99,39 @@ android {
     }
 }
 
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.withType(Test) {
+    finalizedBy 'jacocoTestReport'
+}
+
+task jacocoTestReport(type: JacocoReport) {
+    dependsOn 'testSnapshotDebugUnitTest'
+    dependsOn 'createDebugCoverageReport'
+
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*']
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([
+            fileTree(dir: "${buildDir}/intermediates/javac/snapshotDebug", excludes: fileFilter),
+            fileTree(dir: "${buildDir}/intermediates/javac/debug", excludes: fileFilter)
+    ]))
+    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
+            'jacoco/testSnapshotDebugUnitTest.exec',
+            'outputs/code-coverage/connected/*coverage.ec'
+    ]))
+}
+
 configurations.all {
     resolutionStrategy {
         cacheDynamicVersionsFor(0, 'seconds')
@@ -163,11 +196,9 @@ dependencies {
     testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'org.robolectric:robolectric:4.8.1'
     testImplementation 'android.arch.core:core-testing:1.1.1'
-
 }
 
 task grantPermissionForODKXApp {
     dependsOn grantServicesReadExternalStoragePermission
     dependsOn grantServicesWriteExternalStoragePermission
 }
-

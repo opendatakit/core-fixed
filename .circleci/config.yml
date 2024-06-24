@@ -27,11 +27,11 @@ jobs:
           command: adb start-server
 
       - android/start-emulator:
-                avd-name: avd
-                no-window: true
-                restore-gradle-cache-prefix: v1
-                memory: 4096
-                post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
+          avd-name: avd
+          no-window: true
+          restore-gradle-cache-prefix: v1
+          memory: 4096
+          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
 
       - android/disable-animations
 
@@ -46,8 +46,13 @@ jobs:
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
 
-      - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+      - run:
+          name: Run Instrumented Tests
+          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+
+      - run:
+          name: Generate JaCoCo Report
+          command: ./gradlew jacocoTestReport
 
       - android/save-gradle-cache:
           cache-prefix: v1
@@ -58,7 +63,11 @@ jobs:
 
       - store_artifacts:
           name: Store Test Reports
-          path: services_app/build/reports
+          path: services_app/build/reports/androidTests/connected
+
+      - store_artifacts:
+          name: Store JaCoCo HTML Report
+          path: services_app/build/jacocoHtml
 
   build:
     docker:
