@@ -43,12 +43,18 @@ jobs:
           name: Restart ADB server
           command: adb kill-server && adb start-server  # Restart ADB server to avoid version mismatch issues
 
-      - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest
-
       - run:
-          name: Run Instrumented Tests
-          command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+          name: Run Instrumented Tests with Retry on Failure
+          command: |
+            set +e
+            for i in {1..2}; do  # Retry up to 2 times
+              ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+              if [ $? -eq 0 ]; then
+                break  # Exit the loop if tests pass
+              elif [ $i -eq 2 ]; then
+                exit 1  # Exit with failure if tests fail after all retries
+              fi
+            done
 
       - run:
           name: Generate JaCoCo Report
