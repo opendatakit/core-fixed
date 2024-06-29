@@ -5,4 +5,7 @@ package org.opendatakit;
  */
 public class TestConsts {
     public static final String APPNAME = "unittestTMP";
+
+    public static final long WAIT_TIME = 2000;
+
 }

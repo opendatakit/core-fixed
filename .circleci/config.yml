@@ -1,3 +1,4 @@
+
 version: 2.1
 
 orbs:
@@ -8,19 +9,18 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: large
+      resource-class: xlarge
       tag: 2024.01.1
 
     steps:
       - checkout
-
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
 
       - android/create-avd:
           avd-name: Pixel_7_Pro
-          system-image: system-images;android-30;google_apis_playstore;x86_64
+          system-image: system-images;android-30;google_apis;x86
           install: true
 
       - run:
@@ -38,17 +38,17 @@ jobs:
 
       - run:
           name: Wait for Emulator to be Ready
-          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'  # Ensures the emulator is fully booted
+          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'
 
       - run:
           name: Restart ADB server
-          command: adb kill-server && adb start-server  # Restart ADB server to avoid version mismatch issues
+          command: adb kill-server && adb start-server
 
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
 
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
 
       - android/save-gradle-cache:
           cache-prefix: v1
