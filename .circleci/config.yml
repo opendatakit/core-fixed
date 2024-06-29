@@ -8,19 +8,18 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: large
+      resource-class: xlarge
       tag: 2024.01.1
 
     steps:
       - checkout
-
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
 
       - android/create-avd:
           avd-name: Pixel_7_Pro
-          system-image: system-images;android-30;google_apis_playstore;x86_64
+          system-image: system-images;android-30;google_apis;x86
           install: true
 
       - run:
@@ -48,7 +47,7 @@ jobs:
           test-command: ./gradlew testSnapshotDebugUnitTest
 
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
 
       - android/save-gradle-cache:
           cache-prefix: v1

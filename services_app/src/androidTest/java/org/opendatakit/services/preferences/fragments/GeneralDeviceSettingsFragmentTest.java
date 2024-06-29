@@ -1,3 +1,4 @@
+
 package org.opendatakit.services.preferences.fragments;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -17,7 +18,6 @@ import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.consts.IntentConsts;
@@ -40,6 +40,7 @@ public class GeneralDeviceSettingsFragmentTest extends BaseUITest<AppPropertiesA
                         click()));
 
     }
+
 
     @Test
     public void whenTextFontSizeIsClicked_doChangeFontSize_checkIfSizeIsExtraLarge() {
