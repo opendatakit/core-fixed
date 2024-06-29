@@ -73,7 +73,11 @@ jobs:
 
       - store_artifacts:
           name: Store JaCoCo HTML Report
-          path: services_app/build/jacocoHtml
+          path: services_app/build/reports/jacoco/html
+
+      - store_artifacts:
+          name: Store JaCoCo XML Report
+          path: services_app/build/reports/jacoco/test/jacocoTestReport.xml
 
   build:
     docker:
