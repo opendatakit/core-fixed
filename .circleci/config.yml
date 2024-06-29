@@ -37,17 +37,17 @@ jobs:
 
       - run:
           name: Wait for Emulator to be Ready
-          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'  # Ensures the emulator is fully booted
+          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'
 
       - run:
           name: Restart ADB server
-          command: adb kill-server && adb start-server  # Restart ADB server to avoid version mismatch issues
+          command: adb kill-server && adb start-server
 
       - android/run-tests:
           test-command: ./gradlew testSnapshotDebugUnitTest
 
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
 
       - android/save-gradle-cache:
           cache-prefix: v1
