@@ -1,8 +1,6 @@
 /**************************************************************************************************
  GRADLE CONFIG
- **************************************************************************************************/
-
-apply plugin: 'jacoco'
+ *************************************************************************************************/
 
 if ((new File(gradle.local)).exists()) {
     apply from: gradle.local
@@ -33,7 +31,6 @@ android {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
         testInstrumentationRunner(instrumentationRunner)
-
     }
 
     buildFeatures {
@@ -79,7 +76,8 @@ android {
         }
         debug {
             debuggable(true)
-            testCoverageEnabled = true
+            testCoverageEnabled true
+            enableUnitTestCoverage true
         }
     }
 
@@ -100,6 +98,11 @@ android {
         singleVariant("snapshotDebug")
         singleVariant("primaryRelease")
     }
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
 }
 
 configurations.all {
@@ -153,7 +156,6 @@ dependencies {
     androidTestImplementation 'androidx.annotation:annotation:1.7.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.5.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'org.mockito:mockito-core:2.19.0'
     androidTestImplementation 'com.google.truth:truth:1.1.3'
@@ -173,21 +175,36 @@ task grantPermissionForODKXApp {
     dependsOn grantServicesWriteExternalStoragePermission
 }
 
+
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testSnapshotDebugUnitTest']) {
     reports {
-        xml.required = false
+        xml.required = true
         html.required = true
-        html.destination file("${buildDir}/jacocoHtml")
-        csv.required = true
-        csv.destination file("${buildDir}/jacoco.csv")
+        csv.required = false
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${project.buildDir}/intermediates/javac/snapshotDebug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java"
+    def debugTree = fileTree(
+            dir: "$buildDir/intermediates/classes/snapshotDebug/jacocoSnapshotDebug",
+            excludes: fileFilter
+    )
+    def mainSrc = "$projectDir/src/main/java"
+
     sourceDirectories.setFrom(files([mainSrc]))
     classDirectories.setFrom(files([debugTree]))
-    executionData.from(fileTree(dir: "${project.buildDir}/jacoco", includes: [
-            "testSnapshotDebugUnitTest.exec", "outputs/code-coverage/connected/*coverage.ec"
+    executionData.setFrom(fileTree(dir: "$buildDir/outputs/unit_test_code_coverage/snapshotDebugUnitTest", includes: [
+            "testSnapshotDebugUnitTest.exec"
     ]))
+
+    doFirst {
+        def execFiles = fileTree(dir: "$buildDir/outputs/unit_test_code_coverage/snapshotDebugUnitTest", includes: ["testSnapshotDebugUnitTest.exec"]).files
+        if (execFiles.empty) {
+            throw new GradleException("Jacoco execution data not found. Please run the unit tests before generating the report.")
+        } else {
+            println "Found Jacoco execution data files: $execFiles"
+        }
+    }
 }
+
+
+
