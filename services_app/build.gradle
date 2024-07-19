@@ -1,5 +1,5 @@
 /**************************************************************************************************
-                                        GRADLE CONFIG
+ GRADLE CONFIG
  *************************************************************************************************/
 
 if ((new File(gradle.local)).exists()) {
@@ -31,7 +31,6 @@ android {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
         testInstrumentationRunner(instrumentationRunner)
-
     }
 
     buildFeatures {
@@ -77,6 +76,8 @@ android {
         }
         debug {
             debuggable(true)
+            testCoverageEnabled true
+            enableUnitTestCoverage true
         }
     }
 
@@ -97,6 +98,11 @@ android {
         singleVariant("snapshotDebug")
         singleVariant("primaryRelease")
     }
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
 }
 
 configurations.all {
@@ -162,11 +168,43 @@ dependencies {
     testImplementation 'androidx.test:core:1.5.0'
     testImplementation 'org.robolectric:robolectric:4.8.1'
     testImplementation 'android.arch.core:core-testing:1.1.1'
-
 }
 
 task grantPermissionForODKXApp {
     dependsOn grantServicesReadExternalStoragePermission
     dependsOn grantServicesWriteExternalStoragePermission
 }
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testSnapshotDebugUnitTest']) {
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(
+            dir: "$buildDir/intermediates/classes/snapshotDebug/jacocoSnapshotDebug",
+            excludes: fileFilter
+    )
+    def mainSrc = "$projectDir/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: "$buildDir/outputs/unit_test_code_coverage/snapshotDebugUnitTest", includes: [
+            "testSnapshotDebugUnitTest.exec"
+    ]))
+
+    doFirst {
+        def execFiles = fileTree(dir: "$buildDir/outputs/unit_test_code_coverage/snapshotDebugUnitTest", includes: ["testSnapshotDebugUnitTest.exec"]).files
+        if (execFiles.empty) {
+            throw new GradleException("Jacoco execution data not found. Please run the unit tests before generating the report.")
+        } else {
+            println "Found Jacoco execution data files: $execFiles"
+        }
+    }
+}
+
+
 

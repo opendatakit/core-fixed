@@ -24,6 +24,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.opendatakit.IdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.services.MainActivity;
 import org.opendatakit.services.R;

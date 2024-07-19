@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   android: circleci/android@2.4.0
+
 jobs:
   test:
     description: Runs unit tests and instrumented tests on the Android Common
@@ -19,48 +20,94 @@ jobs:
       - android/create-avd:
           avd-name: avd
           install: true
-          system-image: system-images;android-29;default;x86
+          system-image: system-images;android-30;google_apis;x86
+
+      - run:
+          name: Start ADB server
+          command: adb start-server
+
       - android/start-emulator:
           avd-name: avd
           no-window: true
           restore-gradle-cache-prefix: v1
-          memory: 4096 
-          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
+          memory: 4096
+          post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
+
       - android/disable-animations
-      - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest
-      - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest
+
+      - run:
+          name: Wait for Emulator to be Ready
+          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'  # Ensures the emulator is fully booted
+
+      - run:
+          name: Restart ADB server
+          command: adb kill-server && adb start-server  # Restart ADB server to avoid version mismatch issues
+
+      - run:
+          name: Run Instrumented Tests with Retry on Failure
+          command: |
+            set +e
+            for i in {1..2}; do  # Retry up to 2 times
+              ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+              if [ $? -eq 0 ]; then
+                break  # Exit the loop if tests pass
+              elif [ $i -eq 2 ]; then
+                exit 1  # Exit with failure if tests fail after all retries
+              fi
+            done
+
+      - run:
+          name: Generate JaCoCo Report
+          command: ./gradlew jacocoTestReport
+
       - android/save-gradle-cache:
           cache-prefix: v1
+
       - store_artifacts:
           name: Store Test Results
           path: services_app/build/outputs/androidTest-results
+
       - store_artifacts:
           name: Store Test Reports
-          path: services_app/build/reports
+          path: services_app/build/reports/androidTests/connected
+
+      - store_artifacts:
+          name: Store JaCoCo HTML Report
+          path: services_app/build/reports/androidTests/connected
+
+      - store_artifacts:
+          name: Store JaCoCo XML Report
+          path: services_app/build/reports/androidTests/connected
 
   build:
     docker:
       - image: cimg/android:2024.01
+
     steps:
       - checkout
+
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
+
       - android/restore-gradle-cache:
           cache-prefix: v1
+
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+
       - android/save-gradle-cache:
           cache-prefix: v1
+
       - run:
           name: Build Services
           command: ./gradlew assembleSnapshotDebug
+
       - store_artifacts:
           name: Store Build Artifacts
           path: services_app/build/outputs/apk
+
       - persist_to_workspace:
           root: .
           paths:

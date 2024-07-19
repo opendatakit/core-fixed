@@ -12,16 +12,18 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.rule.ActivityTestRule;
 
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.IdlingResource;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -40,10 +42,14 @@ import java.util.Map;
 
 public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsActivity> {
 
+    @Rule
+    public ActivityTestRule<VerifyServerSettingsActivity> activityRule = new ActivityTestRule<>(VerifyServerSettingsActivity.class);
+
+
     @Override
     protected void setUpPostLaunch() {
-        activityScenario.onActivity(activity -> {
-            PropertiesSingleton props = activity.getProps();
+        activityRule.getActivity().runOnUiThread(() -> {
+            PropertiesSingleton props = activityRule.getActivity().getProps();
             assertThat(props).isNotNull();
 
             Map<String, String> serverProperties = UpdateServerSettingsFragment.getUpdateUrlProperties(TEST_SERVER_URL);
@@ -56,8 +62,9 @@ public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsA
 
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
-            activity.updateViewModelWithProps();
+            activityRule.getActivity().updateViewModelWithProps();
         });
+        Espresso.onIdle();
     }
 
     @Override
@@ -108,7 +115,21 @@ public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsA
     @Test
     public void verifyDrawerResolveConflictsClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+
+        try {
+            Thread.sleep(TestConsts.WAIT_TIME);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         onView(withId(R.id.drawer_resolve_conflict)).perform(ViewActions.click());
+
+        try {
+            Thread.sleep(TestConsts.WAIT_TIME);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 

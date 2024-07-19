@@ -17,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.IdlingResource;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -31,6 +32,7 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
     @Override
     protected void setUpPostLaunch() {
         activityScenario.onActivity(activity -> {
+            IdlingResource.increment();
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
 
@@ -41,16 +43,15 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activity.updateViewModelWithProps();
+            IdlingResource.decrement();
         });
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyValuesTest() {
         onView(withId(R.id.tvServerUrlLogin)).check(matches(withText(TEST_SERVER_URL)));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyVisibilityTest() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
