@@ -76,11 +76,11 @@ public final class GlobalSyncNotificationManagerImpl implements GlobalSyncNotifi
     update(appName);
   }
 
-  private synchronized boolean isDisplayingNotification() {
+  public synchronized boolean isDisplayingNotification() {
     return displayNotification;
   }
 
-  private AppSyncStatus getAppStatus(String appName) throws NoAppNameSpecifiedException {
+  public AppSyncStatus getAppStatus(String appName) throws NoAppNameSpecifiedException {
     if (appName == null) {
       throw new NoAppNameSpecifiedException("Cannot update NotificationManager without appName");
     }
@@ -123,7 +123,7 @@ public final class GlobalSyncNotificationManagerImpl implements GlobalSyncNotifi
     }
   }
 
-  private void createNotification(String appName) {
+  public void createNotification(String appName) {
     // The intent to launch when the user clicks the expanded notification
     // Intent tmpIntent = new Intent(service, SyncActivity.class);
     Intent tmpIntent = new Intent(Intent.ACTION_VIEW);
@@ -153,7 +153,7 @@ public final class GlobalSyncNotificationManagerImpl implements GlobalSyncNotifi
     displayNotification = true;
   }
 
-  private void removeNotification() {
+  public void removeNotification() {
     if (!test) {
       service.stopForeground(true);
     }
@@ -308,7 +308,7 @@ public final class GlobalSyncNotificationManagerImpl implements GlobalSyncNotifi
 
   }
 
-  private void createSyncNotificationChannel(@NonNull String appName) {
+  public void createSyncNotificationChannel(@NonNull String appName) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       NotificationChannel channel = new NotificationChannel(
           getNotificationChannelId(appName),
