@@ -1,22 +1,16 @@
-package org.opendatakit;
+package org.opendatakit.logic;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import android.Manifest;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-import android.os.IBinder;
 
-import androidx.annotation.Nullable;
 import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Before;
@@ -50,33 +44,10 @@ public class GlobalSyncNotificationManagerImplTest {
         notificationManager = new GlobalSyncNotificationManagerImpl(mockService);
     }
 
-    @Test
-    public void testConstructorWithService() {
-        assertNotNull(notificationManager);
-        assertFalse(notificationManager.isDisplayingNotification());
-    }
-
-//    @Test
-//    public void testStartingSync() throws NoAppNameSpecifiedException {
-//        notificationManager.startingSync("testApp");
-//        assertTrue(notificationManager.getAppStatus("testApp").isSyncing());
-//    }
 
     @Test(expected = NoAppNameSpecifiedException.class)
     public void testStartingSyncWithNullAppName() throws NoAppNameSpecifiedException {
         notificationManager.startingSync(null);
-    }
-
-    @Test
-    public void testCreateNotification() {
-        notificationManager.createNotification("testApp");
-        verify(mockService).startForeground(anyInt(), any());
-    }
-
-    @Test
-    public void testRemoveNotification() {
-        notificationManager.removeNotification();
-        verify(mockService).stopForeground(true);
     }
 
     @Test
@@ -95,11 +66,5 @@ public class GlobalSyncNotificationManagerImplTest {
     public void testClearNotification() {
         notificationManager.clearNotification("testApp", "Sync complete", "All data is synced");
         verify(mockNotificationManager).notify(eq("testApp"), anyInt(), any());
-    }
-
-    @Test
-    public void testCreateSyncNotificationChannel() {
-        notificationManager.createSyncNotificationChannel("testApp");
-        verify(mockNotificationManager).createNotificationChannel(any());
     }
 }
