@@ -42,6 +42,7 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.mcvMainDetails), TestConsts.WAIT_TIME);
     }
 
 

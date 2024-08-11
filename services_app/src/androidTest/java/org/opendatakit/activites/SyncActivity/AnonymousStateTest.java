@@ -63,6 +63,7 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.toolbarSyncActivity), TestConsts.WAIT_TIME);
     }
 
     @Override

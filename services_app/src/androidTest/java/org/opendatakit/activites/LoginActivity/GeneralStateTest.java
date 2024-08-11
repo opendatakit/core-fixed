@@ -45,6 +45,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.mcvMainDetails), TestConsts.WAIT_TIME);
     }
 
     @Test

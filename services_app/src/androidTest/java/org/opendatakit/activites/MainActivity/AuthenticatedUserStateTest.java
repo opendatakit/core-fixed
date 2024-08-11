@@ -61,6 +61,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
     }
 
     @Override

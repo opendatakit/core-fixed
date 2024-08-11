@@ -52,6 +52,7 @@ public class AnonymousStateTest extends BaseUITest<VerifyServerSettingsActivity>
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.WAIT_TIME);
     }
 
     @Override

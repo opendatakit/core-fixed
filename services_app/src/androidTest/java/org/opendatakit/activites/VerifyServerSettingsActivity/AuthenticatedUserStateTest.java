@@ -56,6 +56,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsA
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.WAIT_TIME);
     }
 
     @Override
