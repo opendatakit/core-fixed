@@ -209,7 +209,8 @@ public abstract class BaseUITest<T extends Activity> {
                 do {
                     for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
                         if (viewMatcher.matches(child)) {
-                            return;
+                            if(child.isFocusable())
+                                return;
                         }
                     }
 

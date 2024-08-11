@@ -71,7 +71,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "true"));
             activity.recreate();
         });
-        waitForView(withId(android.R.id.button1), TestConsts.WAIT_TIME);
+        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
 
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
