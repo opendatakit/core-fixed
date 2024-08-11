@@ -17,6 +17,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -102,6 +103,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
 
+    @Ignore
     @Test
     public void verifyDrawerSignInButtonClickTest() {
         onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());

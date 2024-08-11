@@ -86,7 +86,8 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
     }
 
     @After
-    public void after() {
+    public void tearDown() throws Exception {
+        super.tearDown();
         resetConfiguration();
     }
 

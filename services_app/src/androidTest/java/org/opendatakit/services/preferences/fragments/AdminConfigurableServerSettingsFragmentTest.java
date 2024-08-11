@@ -102,9 +102,11 @@ public class AdminConfigurableServerSettingsFragmentTest extends BaseUITest<AppP
     }
 
     @After
-    public void after() {
+    public void tearDown() throws Exception {
+        super.tearDown();
         resetConfiguration();
     }
+
     @Override
     protected Intent getLaunchIntent() {
         Intent intent = new Intent(getContext(), AppPropertiesActivity.class);

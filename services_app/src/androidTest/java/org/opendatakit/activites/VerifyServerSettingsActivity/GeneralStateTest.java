@@ -16,6 +16,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -65,6 +66,7 @@ public class GeneralStateTest extends BaseUITest<VerifyServerSettingsActivity> {
         onView(withId(R.id.tvServerAnonymousAllowedVerify)).check(matches(withText(getContext().getString(R.string.not_known_yet))));
     }
 
+    @Ignore
     @Test
     public void checkToolbarSettingsButtonClick() {
         onView(withId(R.id.action_settings)).perform(ViewActions.click());

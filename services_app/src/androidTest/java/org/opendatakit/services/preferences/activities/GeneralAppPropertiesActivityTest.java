@@ -23,6 +23,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -36,6 +37,7 @@ public class GeneralAppPropertiesActivityTest extends BaseUITest<AppPropertiesAc
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
         });
+        waitForView(withId(R.id.app_properties_content), TestConsts.WAIT_TIME);
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
 
     }
@@ -93,7 +95,6 @@ public class GeneralAppPropertiesActivityTest extends BaseUITest<AppPropertiesAc
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 3),
                 isDisplayed())).check(matches(withText(R.string.enable_user_restrictions)));
     }
-
 
     @Test
     public void whenResetConfigurationScreenIsClicked_launchResetConfigurationDialog() {

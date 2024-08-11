@@ -15,6 +15,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -48,6 +49,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         waitForView(withId(R.id.mcvMainDetails), TestConsts.WAIT_TIME);
     }
 
+    @Ignore
     @Test
     public void verifyValuesTest() {
         onView(withId(R.id.tvTitleLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));

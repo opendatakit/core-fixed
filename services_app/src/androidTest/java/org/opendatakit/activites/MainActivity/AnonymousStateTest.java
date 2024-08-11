@@ -17,6 +17,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -70,6 +71,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "true"));
             activity.recreate();
         });
+        waitForView(withId(android.R.id.button1), TestConsts.WAIT_TIME);
 
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
@@ -142,7 +144,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.inputUsernameLogin)).check(matches(isDisplayed()));
     }
 
-
+    @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());

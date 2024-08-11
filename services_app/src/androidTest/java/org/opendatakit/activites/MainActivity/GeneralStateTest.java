@@ -70,6 +70,8 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
+        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
+
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
