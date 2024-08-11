@@ -48,7 +48,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -68,6 +68,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));

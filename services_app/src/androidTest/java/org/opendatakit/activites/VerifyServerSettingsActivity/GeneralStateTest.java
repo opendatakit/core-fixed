@@ -15,6 +15,7 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -48,7 +49,7 @@ public class GeneralStateTest extends BaseUITest<VerifyServerSettingsActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override

@@ -15,6 +15,7 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
@@ -46,7 +47,7 @@ public class GeneralStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.toolbarSyncActivity), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override

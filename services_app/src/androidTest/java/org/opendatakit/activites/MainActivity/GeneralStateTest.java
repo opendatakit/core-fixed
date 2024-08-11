@@ -16,6 +16,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
@@ -48,7 +49,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -70,7 +71,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
-        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
+        waitFor(TestConsts.SHORT_WAIT);
 
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 

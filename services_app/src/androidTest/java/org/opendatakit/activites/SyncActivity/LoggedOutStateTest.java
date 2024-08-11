@@ -46,7 +46,7 @@ public class LoggedOutStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.toolbarSyncActivity), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override

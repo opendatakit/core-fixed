@@ -45,7 +45,7 @@ public class LoggedOutStateTest extends BaseUITest<VerifyServerSettingsActivity>
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override

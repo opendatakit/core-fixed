@@ -16,6 +16,7 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 import android.content.Intent;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.After;
 import org.junit.Ignore;
@@ -34,7 +35,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
         });
-        waitForView(withId(R.id.app_properties_content), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.app_properties_content), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         enableAdminMode();
         Espresso.pressBack();

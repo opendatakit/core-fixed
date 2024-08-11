@@ -62,7 +62,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
-        waitForView(withId(android.R.id.button1), TestConsts.WAIT_TIME);
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         String testUrl = getActivity().getString(org.opendatakit.androidlibrary.R.string.default_sync_server_url);
 
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
