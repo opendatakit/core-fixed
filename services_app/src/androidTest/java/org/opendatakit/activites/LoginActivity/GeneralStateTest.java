@@ -46,10 +46,9 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.mcvMainDetails), TestConsts.WAIT_TIME);
+        waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.WAIT_TIME);
     }
 
-    @Ignore
     @Test
     public void verifyValuesTest() {
         onView(withId(R.id.tvTitleLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
