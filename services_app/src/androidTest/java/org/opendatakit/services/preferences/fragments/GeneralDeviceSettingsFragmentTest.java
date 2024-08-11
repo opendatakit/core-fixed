@@ -35,7 +35,6 @@ public class GeneralDeviceSettingsFragmentTest extends BaseUITest<AppPropertiesA
             assertThat(props).isNotNull();
         });
 
-        waitForView(withId(R.id.app_properties_content), TestConsts.WAIT_TIME);
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.preferences)),

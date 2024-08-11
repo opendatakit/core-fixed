@@ -9,17 +9,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
 
-import android.Manifest;
 import android.content.Intent;
 
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.rule.GrantPermissionRule;
 
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -50,7 +45,6 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
-        waitForView(withId(R.id.topAppBar1), TestConsts.WAIT_TIME);
     }
 
     @Test
@@ -64,14 +58,14 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
     @Test
     public void verifyVisibilityTest() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
     }
 
     @Test
     public void checkDrawerServerLoginTest() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_server_login)).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
@@ -87,7 +81,7 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
     @Test
     public void checkDrawerSettingsClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_settings)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }

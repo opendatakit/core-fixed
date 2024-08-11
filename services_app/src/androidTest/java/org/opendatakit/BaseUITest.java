@@ -3,10 +3,7 @@ package org.opendatakit;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.android.gms.common.internal.Preconditions.checkNotNull;
@@ -16,42 +13,19 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.RemoteException;
-import android.view.InputDevice;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.Checkable;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.preference.CheckBoxPreference;
 import android.view.View;
 import android.widget.Checkable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.action.GeneralClickAction;
-import androidx.test.espresso.action.Press;
-import androidx.test.espresso.action.Tap;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.espresso.util.HumanReadables;
-import androidx.test.espresso.util.TreeIterables;
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import org.junit.Rule;
-import org.opendatakit.services.R;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -60,13 +34,14 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
+import org.opendatakit.services.R;
 import org.opendatakit.utilities.LocalizationUtils;
 import org.opendatakit.utilities.ODKFileUtils;
 
 import java.io.File;
-import java.util.concurrent.TimeoutException;
 
 public abstract class BaseUITest<T extends Activity> {
     protected final static String APP_NAME = "testAppName";
@@ -206,42 +181,6 @@ public abstract class BaseUITest<T extends Activity> {
 
             @Override public void perform(UiController uiController, View view) {
                 uiController.loopMainThreadForAtLeast(delay);
-            }
-        };
-    }
-
-    public static ViewAction waitForView(final Matcher<View> viewMatcher, final long millis) {
-        return new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return ViewMatchers.isRoot();
-            }
-
-            @Override
-            public String getDescription() {
-                return "Wait for a specific view with id <" + viewMatcher + "> during " + millis + " millis.";
-            }
-
-            @Override
-            public void perform(final UiController uiController, final View view) {
-                final long startTime = System.currentTimeMillis();
-                final long endTime = startTime + millis;
-
-                do {
-                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
-                        if (viewMatcher.matches(child)) {
-                            return;
-                        }
-                    }
-
-                    uiController.loopMainThreadForAtLeast(10);
-                } while (System.currentTimeMillis() < endTime);
-
-                throw new PerformException.Builder()
-                        .withActionDescription(this.getDescription())
-                        .withViewDescription(HumanReadables.describe(view))
-                        .withCause(new TimeoutException())
-                        .build();
             }
         };
     }

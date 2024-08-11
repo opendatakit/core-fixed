@@ -43,7 +43,7 @@ public class GeneralAdminConfigurationTest extends BaseUITest<AppPropertiesActiv
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
         });
-        waitForView(withId(R.id.app_properties_content), TestConsts.WAIT_TIME);
+
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
 
     }

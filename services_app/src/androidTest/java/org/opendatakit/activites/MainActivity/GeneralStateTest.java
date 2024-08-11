@@ -11,15 +11,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -51,8 +48,6 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
-
-        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
     }
 
     @Override
@@ -99,15 +94,14 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void checkDrawerSettingsBtnClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-        waitForView(withId(R.id.drawer_settings), TestConsts.WAIT_TIME);
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_settings)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }
 
     @Test
     public void checkDrawerServerLoginTest() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_server_login)).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
@@ -116,7 +110,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void checkDrawerAboutUsBtnClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
 
         ViewInteraction btnAboutUs = onView(withId(R.id.drawer_about_us));
         btnAboutUs.check(matches(isEnabled()));
