@@ -33,6 +33,7 @@ import android.widget.Checkable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.GeneralClickAction;
@@ -43,6 +44,8 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.espresso.util.HumanReadables;
+import androidx.test.espresso.util.TreeIterables;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Rule;
@@ -63,6 +66,7 @@ import org.opendatakit.utilities.LocalizationUtils;
 import org.opendatakit.utilities.ODKFileUtils;
 
 import java.io.File;
+import java.util.concurrent.TimeoutException;
 
 public abstract class BaseUITest<T extends Activity> {
     protected final static String APP_NAME = "testAppName";
@@ -74,8 +78,11 @@ public abstract class BaseUITest<T extends Activity> {
     protected final static String FONT_SIZE_M = "Medium";
     protected final static String FONT_SIZE_S = "Small";
     protected final static String FONT_SIZE_XS = "Extra Small";
-    protected static final String SERVER_URL = "https://tables-demo.odk-x.org";
+    protected static final String DEFAULT_SERVER_URL = "https://tables-demo.odk-x.org";
+
     protected ActivityScenario<T> activityScenario;
+
+    private boolean isInitialized = false;
 
     @Rule
     public GrantPermissionRule writeRuntimePermissionRule = GrantPermissionRule .grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -85,7 +92,13 @@ public abstract class BaseUITest<T extends Activity> {
 
     @Before
     public void setUp() {
-        Intents.init();
+        if (!isInitialized) {
+            Intents.init();
+            isInitialized = true;
+        } else {
+            throw new RuntimeException("Attempting to do init intents when already true");
+        }
+
         activityScenario = ActivityScenario.launch(getLaunchIntent());
         setUpPostLaunch();
     }
@@ -95,8 +108,17 @@ public abstract class BaseUITest<T extends Activity> {
 
     @After
     public void tearDown() throws Exception {
-        if (activityScenario != null) activityScenario.close();
-        Intents.release();
+        if (activityScenario != null) {
+            activityScenario.close();
+            activityScenario = null;
+        }
+
+        if (isInitialized) {
+            Intents.release();
+            isInitialized = false;
+        } else {
+            throw new RuntimeException("Attempting to do release intents when not initialized");
+        }
     }
 
     protected Context getContext() {
@@ -184,6 +206,42 @@ public abstract class BaseUITest<T extends Activity> {
 
             @Override public void perform(UiController uiController, View view) {
                 uiController.loopMainThreadForAtLeast(delay);
+            }
+        };
+    }
+
+    public static ViewAction waitForView(final Matcher<View> viewMatcher, final long millis) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return ViewMatchers.isRoot();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Wait for a specific view with id <" + viewMatcher + "> during " + millis + " millis.";
+            }
+
+            @Override
+            public void perform(final UiController uiController, final View view) {
+                final long startTime = System.currentTimeMillis();
+                final long endTime = startTime + millis;
+
+                do {
+                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+                        if (viewMatcher.matches(child)) {
+                            return;
+                        }
+                    }
+
+                    uiController.loopMainThreadForAtLeast(10);
+                } while (System.currentTimeMillis() < endTime);
+
+                throw new PerformException.Builder()
+                        .withActionDescription(this.getDescription())
+                        .withViewDescription(HumanReadables.describe(view))
+                        .withCause(new TimeoutException())
+                        .build();
             }
         };
     }

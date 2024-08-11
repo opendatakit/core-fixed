@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -51,6 +52,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
             activity.updateViewModelWithProps();
         });
 
+        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
         return intent;
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void checkFirstStartupTest() {
         activityScenario.onActivity(activity -> {
@@ -98,6 +100,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
     @Test
     public void checkDrawerSettingsBtnClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        waitForView(withId(R.id.drawer_settings), TestConsts.WAIT_TIME);
         onView(withId(R.id.drawer_settings)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }

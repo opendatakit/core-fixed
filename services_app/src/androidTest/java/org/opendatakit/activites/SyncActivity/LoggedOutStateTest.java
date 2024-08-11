@@ -21,6 +21,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -48,6 +49,7 @@ public class LoggedOutStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.drawerLayoutSync), TestConsts.WAIT_TIME);
     }
 
     @Override

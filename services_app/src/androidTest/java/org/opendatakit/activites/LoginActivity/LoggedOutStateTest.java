@@ -17,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -42,15 +43,17 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.topAppBar1), TestConsts.WAIT_TIME);
+
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void verifyValuesTest() {
         onView(withId(R.id.tvServerUrlLogin)).check(matches(withText(TEST_SERVER_URL)));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void verifyVisibilityTest() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());

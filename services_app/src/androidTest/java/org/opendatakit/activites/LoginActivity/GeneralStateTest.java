@@ -22,6 +22,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -49,8 +50,9 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.topAppBar1), TestConsts.WAIT_TIME);
     }
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void verifyValuesTest() {
         onView(withId(R.id.tvTitleLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
@@ -60,7 +62,6 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         onView(withId(R.id.btnUserSignInLogin)).check(matches(isEnabled()));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyVisibilityTest() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
@@ -68,7 +69,6 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void checkDrawerServerLoginTest() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
@@ -78,14 +78,13 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(TEST_SERVER_URL)));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void checkToolbarSettingsButtonClick() {
         onView(withId(R.id.action_settings)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void checkDrawerSettingsClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());

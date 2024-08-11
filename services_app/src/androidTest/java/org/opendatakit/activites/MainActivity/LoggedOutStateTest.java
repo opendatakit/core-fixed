@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -41,9 +42,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
             PropertiesSingleton props = CommonToolProperties.get(activity, activity.getAppName());
             assertThat(props).isNotNull();
 
-            Map<String, String> serverProperties = UpdateServerSettingsFragment.getUpdateUrlProperties(
-                    activity.getString(org.opendatakit.androidlibrary.R.string.default_sync_server_url)
-            );
+            Map<String, String> serverProperties = UpdateServerSettingsFragment.getUpdateUrlProperties(DEFAULT_SERVER_URL);
             assertThat(serverProperties).isNotNull();
             props.setProperties(serverProperties);
 
@@ -51,6 +50,8 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
+
+        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
     }
 
     @Override
@@ -70,10 +71,11 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
+        waitForView(withId(android.R.id.button1), TestConsts.WAIT_TIME);
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
-        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(SERVER_URL)));
+        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(DEFAULT_SERVER_URL)));
     }
     @Test
     public void verifyVisibilityTest() {
@@ -101,13 +103,15 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifySignInButtonClickTest() {
+        waitForView(withId(R.id.btnSignInMain), TestConsts.WAIT_TIME);
         onView(withId(R.id.btnSignInMain)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void verifyDrawerSignInButtonClickTest() {
+        waitForView(withId(R.id.btnDrawerOpen), TestConsts.WAIT_TIME);
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));

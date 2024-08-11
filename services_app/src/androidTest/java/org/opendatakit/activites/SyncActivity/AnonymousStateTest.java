@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -64,6 +65,9 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
+
+        waitForView(withId(R.id.drawerLayoutSync), TestConsts.WAIT_TIME);
+
     }
 
     @Override
@@ -112,6 +116,8 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
         });
         onView(withId(R.id.tvLastSyncTimeSync)).check(matches(withText(DateTimeUtil.getDisplayDate(currentTime))));
     }
+
+
 
     @Ignore // OUTREACHY-BROKEN-TEST
     @Test

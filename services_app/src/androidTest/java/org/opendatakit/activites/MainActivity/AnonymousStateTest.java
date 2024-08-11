@@ -20,6 +20,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -57,9 +58,12 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
+
+        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
+
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void checkFirstStartupTest() {
         activityScenario.onActivity(activity -> {
@@ -69,13 +73,12 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "true"));
             activity.recreate();
         });
-
+        waitForView(withId(android.R.id.button1), TestConsts.WAIT_TIME);
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
-        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(SERVER_URL)));
+        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(DEFAULT_SERVER_URL)));
     }
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyVisibilityTest() {
         onView(withId(R.id.action_sync)).check(matches(isDisplayed()));
@@ -113,6 +116,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
             activity.updateViewModelWithProps();
         });
         onView(withId(R.id.tvLastSyncTimeMain)).check(matches(withText(DateTimeUtil.getDisplayDate(currentTime))));
+
     }
 
     @Test
@@ -128,7 +132,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void verifyDrawerSwitchSignInTypeClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
@@ -141,7 +145,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.inputUsernameLogin)).check(matches(isDisplayed()));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());

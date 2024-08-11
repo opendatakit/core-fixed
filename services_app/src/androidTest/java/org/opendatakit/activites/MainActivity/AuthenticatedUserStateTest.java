@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -64,6 +65,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             activity.updateViewModelWithProps();
         });
 
+        waitForView(withId(R.id.toolbarMainActivity), TestConsts.WAIT_TIME);
     }
 
     @Override
@@ -84,10 +86,12 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
+        String testUrl = getActivity().getString(org.opendatakit.androidlibrary.R.string.default_sync_server_url);
+
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
-        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(SERVER_URL)));
+        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(testUrl)));
     }
     @Test
     public void verifyVisibilityTest() {
@@ -189,7 +193,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.inputTextPassword)).check(matches(withText("")));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+
     @Test
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());

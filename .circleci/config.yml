@@ -32,6 +32,7 @@ jobs:
           test-command: ./gradlew createSnapshotDebugUnitTestCoverageReport
       - android/run-tests:
           test-command: ./gradlew grantPermissionForODKXApp createSnapshotDebugAndroidTestCoverageReport
+          no-output-timeout: 20m
       - android/save-gradle-cache:
           cache-prefix: v1
       - store_artifacts:

@@ -21,6 +21,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -54,6 +55,8 @@ public class AnonymousStateTest extends BaseUITest<VerifyServerSettingsActivity>
 
             activity.updateViewModelWithProps();
         });
+
+        waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.WAIT_TIME);
 
     }
 

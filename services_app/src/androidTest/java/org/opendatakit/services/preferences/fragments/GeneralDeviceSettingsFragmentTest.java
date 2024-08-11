@@ -20,6 +20,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -34,6 +35,7 @@ public class GeneralDeviceSettingsFragmentTest extends BaseUITest<AppPropertiesA
             assertThat(props).isNotNull();
         });
 
+        waitForView(withId(R.id.app_properties_content), TestConsts.WAIT_TIME);
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.preferences)),

@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -42,7 +43,7 @@ public class GeneralAdminConfigurationTest extends BaseUITest<AppPropertiesActiv
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
         });
-
+        waitForView(withId(R.id.app_properties_content), TestConsts.WAIT_TIME);
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
 
     }
@@ -65,6 +66,7 @@ public class GeneralAdminConfigurationTest extends BaseUITest<AppPropertiesActiv
 
     @After
     public void tearDown() throws Exception {
+        super.tearDown();
         resetConfiguration();
     }
 

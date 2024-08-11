@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -53,7 +54,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
 
-            Map<String, String> serverProperties = UpdateServerSettingsFragment.getUpdateUrlProperties(TEST_SERVER_URL);
+            Map<String, String> serverProperties = UpdateServerSettingsFragment.getUpdateUrlProperties(activity.getString(org.opendatakit.androidlibrary.R.string.default_sync_server_url));
             assertThat(serverProperties).isNotNull();
             props.setProperties(serverProperties);
 
@@ -65,6 +66,8 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
+        waitForView(withId(R.id.drawerLayoutSync), TestConsts.WAIT_TIME);
+
     }
 
     @Override
