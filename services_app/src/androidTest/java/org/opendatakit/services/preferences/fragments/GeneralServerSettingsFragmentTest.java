@@ -37,7 +37,7 @@ public class GeneralServerSettingsFragmentTest extends BaseUITest<AppPropertiesA
             assertThat(props).isNotNull();
         });
 
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.app_properties_content), TestConsts.TIMEOUT_WAIT));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.topAppBarSettingsBack), TestConsts.TIMEOUT_WAIT));
 
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         onView(withId(androidx.preference.R.id.recycler_view))

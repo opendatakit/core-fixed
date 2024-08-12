@@ -38,6 +38,8 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         enableAdminMode();
         Espresso.pressBack();
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
     }
 
 

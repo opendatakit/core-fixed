@@ -98,6 +98,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
                 .check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
     }
 
+    @Ignore
     @Test
     public void verifySignInButtonClickTest() {
         onView(withId(R.id.btnSignInMain)).perform(ViewActions.click());

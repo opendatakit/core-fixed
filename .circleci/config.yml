@@ -24,7 +24,6 @@ jobs:
       - android/start-emulator:
           avd-name: avd
           no-window: true
-          restore-gradle-cache-prefix: v1
           memory: 4096 
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
       - android/disable-animations
@@ -33,8 +32,6 @@ jobs:
       - android/run-tests:
           test-command: ./gradlew grantPermissionForODKXApp createSnapshotDebugAndroidTestCoverageReport
           no-output-timeout: 40m
-      - android/save-gradle-cache:
-          cache-prefix: v1
       - store_artifacts:
           name: Store Test Results
           path: services_app/build/outputs/androidTest-results
@@ -50,13 +47,9 @@ jobs:
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
-      - android/restore-gradle-cache:
-          cache-prefix: v1
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - android/save-gradle-cache:
-          cache-prefix: v1
       - run:
           name: Build Services
           command: ./gradlew assembleSnapshotDebug
