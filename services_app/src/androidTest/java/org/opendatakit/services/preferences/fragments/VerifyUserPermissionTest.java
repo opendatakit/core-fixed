@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.allOf;
 import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.Test;
 import org.opendatakit.BaseUITest;

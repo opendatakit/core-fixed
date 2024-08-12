@@ -12,13 +12,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -51,6 +51,8 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
+
+        Espresso.onIdle();
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 

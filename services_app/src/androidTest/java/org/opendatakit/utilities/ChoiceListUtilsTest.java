@@ -1,5 +1,9 @@
 package org.opendatakit.utilities;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import android.Manifest;
 
 import androidx.test.rule.GrantPermissionRule;
@@ -20,10 +24,6 @@ import org.opendatakit.services.database.utilities.ChoiceListUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import static org.junit.Assert.assertEquals; 
-import static org.junit.Assert.assertNotNull; 
-import static org.junit.Assert.assertNull; 
 
 /**
  * Created by Niles on 6/29/17.

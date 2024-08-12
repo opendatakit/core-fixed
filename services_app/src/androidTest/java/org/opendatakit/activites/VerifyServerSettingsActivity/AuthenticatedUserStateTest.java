@@ -63,6 +63,8 @@ public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsA
 
             activityRule.getActivity().updateViewModelWithProps();
         });
+
+        Espresso.onIdle();
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 

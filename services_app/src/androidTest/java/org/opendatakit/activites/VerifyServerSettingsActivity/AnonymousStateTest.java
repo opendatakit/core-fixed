@@ -58,6 +58,8 @@ public class AnonymousStateTest extends BaseUITest<VerifyServerSettingsActivity>
 
             activityRule.getActivity().updateViewModelWithProps();
         });
+
+        Espresso.onIdle();
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 

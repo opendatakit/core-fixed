@@ -22,19 +22,22 @@
 
 package org.opendatakit.database.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import androidx.annotation.NonNull;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.internal.util.Checks;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.test.internal.util.Checks;
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;

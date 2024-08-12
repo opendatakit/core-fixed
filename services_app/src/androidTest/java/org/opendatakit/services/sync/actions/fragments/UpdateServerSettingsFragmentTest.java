@@ -20,7 +20,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.services.MainActivity;
