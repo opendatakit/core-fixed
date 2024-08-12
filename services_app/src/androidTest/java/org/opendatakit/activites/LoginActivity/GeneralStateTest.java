@@ -45,8 +45,6 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
             activity.updateViewModelWithProps();
-
-            waitForViewToBeVisible(activity, TestConsts.SHORT_WAIT);
         });
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
