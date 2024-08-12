@@ -6,22 +6,19 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
-
 import static org.hamcrest.Matchers.not;
 
 import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 
-import junit.framework.AssertionFailedError;
-
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -35,6 +32,8 @@ public class GeneralTablesSettingsFragmentTest extends BaseUITest<AppPropertiesA
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
         });
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.app_properties_content), TestConsts.TIMEOUT_WAIT));
 
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         onView(withId(androidx.preference.R.id.recycler_view))

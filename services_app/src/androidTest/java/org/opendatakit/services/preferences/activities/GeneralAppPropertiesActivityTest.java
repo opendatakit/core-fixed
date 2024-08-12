@@ -5,8 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -16,6 +14,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -36,7 +35,8 @@ public class GeneralAppPropertiesActivityTest extends BaseUITest<AppPropertiesAc
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
         });
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.app_properties_content), TestConsts.TIMEOUT_WAIT));
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.topAppBarSettingsBack), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
 
     }

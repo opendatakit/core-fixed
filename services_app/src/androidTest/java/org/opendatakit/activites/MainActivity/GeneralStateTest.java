@@ -49,7 +49,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarMainActivity), TestConsts.TIMEOUT_WAIT));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -71,8 +71,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
-        waitFor(TestConsts.SHORT_WAIT);
-
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));

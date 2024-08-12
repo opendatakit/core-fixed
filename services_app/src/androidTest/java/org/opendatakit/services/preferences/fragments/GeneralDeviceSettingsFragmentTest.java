@@ -16,8 +16,8 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -34,6 +34,8 @@ public class GeneralDeviceSettingsFragmentTest extends BaseUITest<AppPropertiesA
             PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
         });
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.app_properties_content), TestConsts.TIMEOUT_WAIT));
 
         onView(withId(R.id.app_properties_content)).check(matches(isDisplayed()));
         onView(withId(androidx.preference.R.id.recycler_view))

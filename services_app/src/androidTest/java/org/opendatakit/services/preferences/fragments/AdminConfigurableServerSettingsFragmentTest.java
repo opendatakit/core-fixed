@@ -2,9 +2,7 @@ package org.opendatakit.services.preferences.fragments;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -20,13 +18,13 @@ import static org.opendatakit.utilities.ViewMatchers.childAtPosition;
 import android.content.Intent;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -42,6 +40,8 @@ public class AdminConfigurableServerSettingsFragmentTest extends BaseUITest<AppP
         });
         enableAdminMode();
         Espresso.pressBack();
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
 
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.restrict_server)),
@@ -103,8 +103,8 @@ public class AdminConfigurableServerSettingsFragmentTest extends BaseUITest<AppP
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         resetConfiguration();
+        super.tearDown();
     }
 
     @Override

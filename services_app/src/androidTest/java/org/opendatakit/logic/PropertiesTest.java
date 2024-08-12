@@ -1,5 +1,8 @@
 package org.opendatakit.logic;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import android.Manifest;
 import android.content.Context;
 
@@ -21,9 +24,6 @@ import org.opendatakit.utilities.StaticStateManipulator;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * @author mitchellsundt@gmail.com

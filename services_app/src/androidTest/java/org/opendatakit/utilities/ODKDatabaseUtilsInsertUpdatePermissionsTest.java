@@ -14,6 +14,9 @@
 
 package org.opendatakit.utilities;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.content.ContentValues;
 
 import org.junit.FixMethodOrder;
@@ -25,9 +28,6 @@ import org.opendatakit.exception.ActionNotAuthorizedException;
 import org.opendatakit.services.database.utilities.ODKDatabaseImplUtils;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Permissions tests in the database.

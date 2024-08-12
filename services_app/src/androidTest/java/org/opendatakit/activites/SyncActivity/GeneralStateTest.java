@@ -47,7 +47,7 @@ public class GeneralStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarSyncActivity), TestConsts.TIMEOUT_WAIT));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override

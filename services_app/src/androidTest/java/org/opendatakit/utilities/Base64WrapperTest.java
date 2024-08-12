@@ -1,11 +1,11 @@
 package org.opendatakit.utilities.test;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.opendatakit.services.utilities.Base64Wrapper;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 public class Base64WrapperTest {
 

@@ -49,7 +49,7 @@ public class GeneralStateTest extends BaseUITest<VerifyServerSettingsActivity> {
 
             activity.updateViewModelWithProps();
         });
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.tvUserHeadingVerifySettings), TestConsts.TIMEOUT_WAIT));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override

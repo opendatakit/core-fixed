@@ -5,6 +5,6 @@ package org.opendatakit;
  */
 public class TestConsts {
     public static final String APPNAME = "unittestTMP";
-    public static final long TIMEOUT_WAIT = 2000;
+    public static final long TIMEOUT_WAIT = 20000;
     public static final long SHORT_WAIT = 100;
 }

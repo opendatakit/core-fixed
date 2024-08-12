@@ -89,7 +89,7 @@ public class AppPropertiesActivity extends AppCompatActivity implements
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_app_properties);
-    appbar=findViewById(R.id.topAppBar);
+    appbar=findViewById(R.id.topAppBarSettingsBack);
 
 
     //back button function

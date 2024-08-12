@@ -1,10 +1,10 @@
 package org.opendatakit.database.service;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import static org.junit.Assert.assertTrue;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

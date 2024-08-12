@@ -62,7 +62,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.toolbarMainActivity), TestConsts.TIMEOUT_WAIT));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override

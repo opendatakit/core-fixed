@@ -1,5 +1,7 @@
 package org.opendatakit.properties;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -9,8 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opendatakit.services.utilities.UserState;
 import org.opendatakit.utilities.StaticStateManipulator;
-
-import static com.google.common.truth.Truth.*;
 
 public class DefaultPropertiesTest {
 
