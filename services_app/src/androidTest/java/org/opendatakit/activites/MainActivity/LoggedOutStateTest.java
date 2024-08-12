@@ -51,6 +51,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -69,11 +70,11 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "true"));
             activity.recreate();
         });
-
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
-        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(SERVER_URL)));
+        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(DEFAULT_SERVER_URL)));
     }
     @Test
     public void verifyVisibilityTest() {
@@ -83,7 +84,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.tvLastSyncTimeMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         onView(withId(R.id.btnSignInMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
 
         onView(withId(R.id.drawer_resolve_conflict)).check(doesNotExist());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
@@ -101,18 +102,17 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifySignInButtonClickTest() {
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnSignInMain), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.btnSignInMain)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
-    @Ignore
+
     @Test
     public void verifyDrawerSignInButtonClickTest() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), TestConsts.WAIT_TIME));
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), TestConsts.WAIT_TIME));
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerLogin), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
-        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.WAIT_TIME));
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.SHORT_WAIT));
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
 

@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -40,6 +41,8 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Test
@@ -49,7 +52,7 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
 
     @Test
     public void verifyVisibilityTest() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.btnDrawerLogin)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         onView(withId(R.id.drawer_resolve_conflict)).check(doesNotExist());
     }

@@ -17,6 +17,7 @@ import static org.hamcrest.Matchers.allOf;
 import android.content.Intent;
 
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
@@ -52,19 +53,16 @@ public class VerifyUserPermissionTest extends BaseUITest<AppPropertiesActivity> 
     public void whenVerifyUserPermissionIsClicked_configureServerUrl() {
         resetConfiguration();
 
-        onView(withId(androidx.preference.R.id.recycler_view)).check(matches(isDisplayed()));
         onView(withId(androidx.preference.R.id.recycler_view)).perform(RecyclerViewActions.actionOnItem(
                 hasDescendant(withText(R.string.verify_server_settings_header)), click()));
 
-        onView(isRoot()).perform(BaseUITest.waitForView(withText(R.string.configure_server_settings), TestConsts.WAIT_TIME));
         onView(withText(R.string.configure_server_settings))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
 
-        onView(isRoot()).perform(BaseUITest.waitForView(allOf(withId(android.R.id.button1), withText(R.string.yes)), TestConsts.WAIT_TIME));
         onView(allOf(withId(android.R.id.button1), withText(R.string.yes))).perform(click());
 
-        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.WAIT_TIME));
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.SHORT_WAIT));
         intended(hasComponent(VerifyServerSettingsActivity.class.getName()));
     }
 

@@ -57,8 +57,8 @@ public class GeneralAdminConfigurationTest extends BaseUITest<AppPropertiesActiv
     @After
     public void tearDown() throws Exception {
         resetConfiguration();
+        super.tearDown();
     }
-
 
     @Override
     protected Intent getLaunchIntent() {

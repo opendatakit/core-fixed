@@ -63,6 +63,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Test
@@ -75,10 +76,11 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
 
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
-        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(SERVER_URL)));
+        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(DEFAULT_SERVER_URL)));
     }
     @Test
     public void verifyVisibilityTest() {
@@ -88,7 +90,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.tvLastSyncTimeMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         onView(withId(R.id.btnSignInMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(click());
 
         onView(withId(R.id.drawer_resolve_conflict)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_switch_sign_in_type)).check(matches(isDisplayed()));
@@ -127,17 +129,17 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerResolveConflictsClick() {
-        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerOpen), TestConsts.WAIT_TIME));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(click());
         onView(withId(R.id.drawer_resolve_conflict)).perform(click());
-        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
+        onView(isRoot()).perform(waitFor(TestConsts.SHORT_WAIT));
+
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 
     @Test
     public void verifyDrawerSwitchSignInTypeClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(click());
         onView(withId(R.id.drawer_switch_sign_in_type)).perform(click());
 
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
@@ -151,7 +153,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
     @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         Espresso.onIdle();
         onView(allOf(withId(R.id.btnDrawerLogin), isDescendantOfA(withId(R.id.toolbarDrawerHeader)))).check(matches(isDisplayed()));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());

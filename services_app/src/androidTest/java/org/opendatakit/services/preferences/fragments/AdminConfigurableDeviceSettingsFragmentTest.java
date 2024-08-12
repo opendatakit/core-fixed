@@ -19,6 +19,7 @@ import android.content.Intent;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.After;
 import org.junit.Test;
@@ -39,6 +40,8 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
         });
         enableAdminMode();
         Espresso.pressBack();
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
 
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.restrict_device)),
@@ -86,8 +89,9 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
     }
 
     @After
-    public void after() {
+    public void tearDown() throws Exception {
         resetConfiguration();
+        super.tearDown();
     }
 
     @Override
@@ -102,7 +106,7 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.exit_admin_mode)),
                         click()));
-        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
 
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.preferences)),

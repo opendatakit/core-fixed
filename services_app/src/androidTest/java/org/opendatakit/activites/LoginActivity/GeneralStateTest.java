@@ -17,6 +17,7 @@ import android.content.Intent;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Ignore;
@@ -55,11 +56,10 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
             activityRule.getActivity().updateViewModelWithProps();
         });
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
     @Test
     public void verifyValuesTest() {
-        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
-
         onView(withId(R.id.tvTitleLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
         onView(withId(R.id.btnAnonymousSignInLogin)).check(matches(withText(R.string.anonymous_user)));
         onView(withId(R.id.btnUserSignInLogin)).check(matches(withText(R.string.authenticated_user)));
@@ -67,12 +67,11 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         onView(withId(R.id.btnUserSignInLogin)).check(matches(isEnabled()));
     }
 
-    @Ignore
+
     @Test
     public void verifyVisibilityTest() {
-        onView(isRoot()).perform(waitFor(TestConsts.WAIT_TIME));
-        onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).check(matches(isDisplayed()));
-        onView(allOf(withId(R.id.btnDrawerOpen), isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.btnDrawerOpenSyncActivity), isDisplayed())).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.btnDrawerOpenSyncActivity), isDisplayed())).perform(click());
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
     }
@@ -80,13 +79,13 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
 
     @Test
     public void checkDrawerServerLoginTest() {
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(click());
         onView(withId(R.id.drawer_server_login)).perform(click());
 
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(TEST_SERVER_URL)));
     }
-    @Ignore
+
     @Test
     public void checkToolbarSettingsButtonClick() {
         onView(withId(R.id.action_settings)).perform(ViewActions.click());
@@ -94,10 +93,9 @@ public class GeneralStateTest extends BaseUITest<LoginActivity> {
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }
 
-    @Ignore
     @Test
     public void checkDrawerSettingsClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(click());
         onView(withId(R.id.drawer_settings)).perform(click());
         Intents.intended(IntentMatchers.hasComponent(AppPropertiesActivity.class.getName()));
     }

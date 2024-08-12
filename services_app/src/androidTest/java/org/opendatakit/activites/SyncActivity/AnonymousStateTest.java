@@ -28,6 +28,7 @@ import androidx.test.rule.ActivityTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -67,7 +68,7 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
 
             activityRule.getActivity().updateViewModelWithProps();
         });
-        Espresso.onIdle();
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -87,7 +88,7 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
         onView(withId(R.id.tvUsernameSync)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         onView(withId(R.id.tvLastSyncTimeSync)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_resolve_conflict)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_switch_sign_in_type)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
@@ -133,14 +134,14 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
 
     @Test
     public void verifyDrawerResolveConflictsClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_resolve_conflict)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 
     @Test
     public void verifyDrawerSwitchSignInTypeClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_switch_sign_in_type)).perform(ViewActions.click());
 
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
@@ -152,7 +153,7 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
 
         onView(withId(R.id.tvSignInWarnHeadingSync)).check(matches(isDisplayed()));

@@ -48,7 +48,7 @@ import java.io.File;
 import java.util.concurrent.TimeoutException;
 
 public abstract class BaseUITest<T extends Activity> {
-    private static boolean isInitialized = false;
+
     protected final static String APP_NAME = "testAppName";
     protected final static String TEST_SERVER_URL = "https://testUrl.com";
     protected final static String TEST_PASSWORD = "testPassword";
@@ -58,8 +58,12 @@ public abstract class BaseUITest<T extends Activity> {
     protected final static String FONT_SIZE_M = "Medium";
     protected final static String FONT_SIZE_S = "Small";
     protected final static String FONT_SIZE_XS = "Extra Small";
-    protected static final String SERVER_URL = "https://tables-demo.odk-x.org";
+    protected static final String DEFAULT_SERVER_URL = "https://tables-demo.odk-x.org";
+
+    private  boolean isInitialized = false;
+
     protected ActivityScenario<T> activityScenario;
+
 
     @Rule
     public GrantPermissionRule writeRuntimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -70,9 +74,10 @@ public abstract class BaseUITest<T extends Activity> {
     @Before
     public void setUp() {
         if (!isInitialized) {
-            System.out.println("Intents.init() called");
             Intents.init();
             isInitialized = true;
+        } else {
+            throw new RuntimeException("Attempting to do init intents when already true");
         }
 
         activityScenario = ActivityScenario.launch(getLaunchIntent());
@@ -87,9 +92,10 @@ public abstract class BaseUITest<T extends Activity> {
         }
 
         if (isInitialized) {
-            System.out.println("Intents.release() called");
             Intents.release();
             isInitialized = false;
+        } else {
+            throw new RuntimeException("Attempting to do release intents when not initialized");
         }
     }
 
@@ -208,11 +214,12 @@ public abstract class BaseUITest<T extends Activity> {
                 do {
                     for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
                         if (viewMatcher.matches(child)) {
-                            return;
+                            if(child.isAttachedToWindow())
+                                return;
                         }
                     }
 
-                    uiController.loopMainThreadForAtLeast(50);
+                    uiController.loopMainThreadForAtLeast(10);
                 } while (System.currentTimeMillis() < endTime);
 
                 throw new PerformException.Builder()

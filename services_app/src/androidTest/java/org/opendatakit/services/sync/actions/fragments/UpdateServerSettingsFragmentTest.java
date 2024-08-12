@@ -38,13 +38,12 @@ public class UpdateServerSettingsFragmentTest {
         intent.putExtra(IntentConsts.INTENT_KEY_APP_NAME, APP_NAME);
         activityScenario = ActivityScenario.launch(intent);
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_server_login)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_server_login)).perform(ViewActions.click());
         Intents.init();
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void whenUpdateServerUrlButtonClicked_doUpdateServerUrl_checkIfUrlIsEmpty() {
         onView(withId(R.id.inputTextServerUrl)).perform(replaceText(""));
