@@ -39,6 +39,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -70,6 +71,14 @@ public abstract class BaseUITest<T extends Activity> {
 
     @Rule
     public GrantPermissionRule readtimePermissionRule = GrantPermissionRule .grant(Manifest.permission.READ_EXTERNAL_STORAGE);
+
+    @BeforeClass
+    public static void coldStartUpCheck(){
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        String packageName = context.getPackageName();
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        context.startActivity(intent);
+    }
 
     @Before
     public void setUp() {

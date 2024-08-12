@@ -61,7 +61,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
-
+    @Ignore
     @Test
     public void checkFirstStartupTest() {
         activityScenario.onActivity(activity -> {

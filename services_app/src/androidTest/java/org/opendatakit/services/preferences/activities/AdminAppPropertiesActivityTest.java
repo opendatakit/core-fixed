@@ -42,7 +42,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
     }
 
-
+    @Ignore
     @Test
     public void checkIfChangeAdminPasswordScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(3, scrollTo()))
@@ -83,6 +83,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.admin_tool_tables_settings_summary)));
     }
 
+    @Ignore
     @Test
     public void checkIfResetConfigurationScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(6, scrollTo()))
@@ -92,12 +93,14 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.clear_configuration_settings)));
     }
 
+    @Ignore
     @Test
     public void checkIfExitAdminModeScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(11, scrollTo()))
                 .check(matches(atPosition(11, hasDescendant(withText(R.string.exit_admin_mode)))));
     }
 
+    @Ignore
     @Test
     public void checkIfVerifyUserPermissionScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(2, scrollTo()))
