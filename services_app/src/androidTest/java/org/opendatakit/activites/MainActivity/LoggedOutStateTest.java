@@ -98,9 +98,9 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
                 .check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
     }
 
-    @Ignore
     @Test
     public void verifySignInButtonClickTest() {
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnSignInMain), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.btnSignInMain)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
@@ -108,6 +108,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
     @Test
     public void verifyDrawerSignInButtonClickTest() {
         onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerLogin), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }

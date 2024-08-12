@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.Checkable;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.PerformException;
@@ -83,6 +85,23 @@ public abstract class BaseUITest<T extends Activity> {
     }
 
     protected abstract void setUpPostLaunch();
+
+    protected void waitForViewToBeVisible(AppCompatActivity activity, long waitInMilliseconds) {
+        long NUMBER_OF_WAKEUPS=10;
+        long delay= waitInMilliseconds/NUMBER_OF_WAKEUPS;
+        boolean checkIfVisible = activity.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED);
+        for(int i=0 ; !checkIfVisible; i++) {
+            try {
+                wait(delay);
+            } catch (InterruptedException e) {
+               // do nothing and try again
+            }
+            if(i > NUMBER_OF_WAKEUPS){
+                break;
+            }
+        }
+    }
+
     protected abstract Intent getLaunchIntent();
 
     @After

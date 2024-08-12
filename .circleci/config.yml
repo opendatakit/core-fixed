@@ -17,16 +17,18 @@ jobs:
           command: sudo chmod +x gradlew
 
       - android/create-avd:
-          avd-name: avd
-          install: true
+          avd-name: testEmulator
           system-image: system-images;android-29;default;x86
           additional-args: -c 2048M
       - android/start-emulator:
-          avd-name: avd
+          avd-name: testEmulator
           no-window: true
           memory: 4096 
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug 
       - android/disable-animations
+       - run:
+          name: Wait for Emulator to be Ready
+          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'
       - android/run-tests:
           test-command: ./gradlew createSnapshotDebugUnitTestCoverageReport
       - android/run-tests:
