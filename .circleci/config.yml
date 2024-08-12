@@ -44,10 +44,10 @@ jobs:
           command: adb kill-server && adb start-server
 
       - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest
+          test-command: ./gradlew createSnapshotDebugUnitTestCoverageReport
 
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
+          test-command: ./gradlew grantPermissionForODKXApp createSnapshotDebugAndroidTestCoverageReport
 
       - android/save-gradle-cache:
           cache-prefix: v1
