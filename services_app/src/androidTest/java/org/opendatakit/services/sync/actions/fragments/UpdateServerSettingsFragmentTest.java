@@ -44,7 +44,6 @@ public class UpdateServerSettingsFragmentTest {
         Intents.init();
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void whenUpdateServerUrlButtonClicked_doUpdateServerUrl_checkIfUrlIsEmpty() {
         onView(withId(R.id.inputTextServerUrl)).perform(replaceText(""));

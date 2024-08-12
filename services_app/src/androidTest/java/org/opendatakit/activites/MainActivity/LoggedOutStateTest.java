@@ -104,7 +104,6 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }
 
-    @Ignore
     @Test
     public void verifyDrawerSignInButtonClickTest() {
         onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());

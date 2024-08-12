@@ -145,7 +145,6 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.inputUsernameLogin)).check(matches(isDisplayed()));
     }
 
-    @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
         onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
