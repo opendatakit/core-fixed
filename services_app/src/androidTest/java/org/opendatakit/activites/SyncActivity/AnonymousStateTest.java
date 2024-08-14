@@ -17,15 +17,15 @@ import static org.hamcrest.Matchers.not;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.rule.ActivityTestRule;
 
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.consts.IntentConsts;
@@ -46,10 +46,13 @@ import java.util.Random;
 
 public class AnonymousStateTest extends BaseUITest<SyncActivity> {
 
+    @Rule
+    public ActivityTestRule<SyncActivity> activityRule = new ActivityTestRule<>(SyncActivity.class);
+
     @Override
     protected void setUpPostLaunch() {
-        activityScenario.onActivity(activity -> {
-            PropertiesSingleton props = activity.getProps();
+        activityRule.getActivity().runOnUiThread(() -> {
+            PropertiesSingleton props = activityRule.getActivity().getProps();
             assertThat(props).isNotNull();
 
             Map<String, String> serverProperties = UpdateServerSettingsFragment.getUpdateUrlProperties(TEST_SERVER_URL);
@@ -62,8 +65,9 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
 
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
-            activity.updateViewModelWithProps();
+            activityRule.getActivity().updateViewModelWithProps();
         });
+        Espresso.onIdle();
     }
 
     @Override
@@ -113,7 +117,6 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
         onView(withId(R.id.tvLastSyncTimeSync)).check(matches(withText(DateTimeUtil.getDisplayDate(currentTime))));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyChangeSyncTypeTest() {
         String[] syncTypes = getContext().getResources().getStringArray(R.array.sync_attachment_option_names);
