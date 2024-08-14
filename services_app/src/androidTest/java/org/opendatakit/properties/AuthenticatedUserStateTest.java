@@ -127,11 +127,48 @@ public class AuthenticatedUserStateTest {
         PropertiesSingleton props = getProps(getContext());
         StaticStateManipulator.get().reset();
 
+        props.clearSettings();
+
         assertThat(props.getProperty(CommonToolProperties.KEY_USERNAME)).isNull();
         assertThat(props.getProperty(CommonToolProperties.KEY_PASSWORD)).isNull();
         assertThat(props.getProperty(CommonToolProperties.KEY_CURRENT_USER_STATE)).isNull();
     }
 
+    @Test
+    public void verifyStandardGroupsProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String expectedGroup = "DATA_COLLECTORS";
+        String actualGroup = props.getProperty(CommonToolProperties.KEY_DEFAULT_GROUP);
+
+        assertThat(actualGroup).isNotNull();
+        assertThat(actualGroup).isEqualTo(expectedGroup);
+    }
+
+    @Test
+    public void verifyStandardRolesProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String expectedRole = "ROLE_USER";
+        String actualRolesList = props.getProperty(CommonToolProperties.KEY_ROLES_LIST);
+
+        assertThat(actualRolesList).isNotNull();
+        assertThat(actualRolesList).contains(expectedRole);
+    }
+
+    @Test
+    public void verifyMultipleRolesProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String[] expectedRoles = {"ROLE_USER", "ROLE_ADMIN"};
+        String actualRolesList = props.getProperty(CommonToolProperties.KEY_ROLES_LIST);
+
+        assertThat(actualRolesList).isNotNull();
+
+        for (String role: expectedRoles) {
+            assertThat(actualRolesList).contains(role);
+        }
+    }
 
     @Test
     public void verifyAllProperties() {
