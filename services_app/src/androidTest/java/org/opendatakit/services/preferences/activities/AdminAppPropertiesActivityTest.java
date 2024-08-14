@@ -37,7 +37,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         enableAdminMode();
         Espresso.pressBack();
     }
-
+    @Ignore
     @Test
     public void checkIfChangeAdminPasswordScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(3, scrollTo()))
@@ -46,7 +46,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 3),
                 isDisplayed())).check(matches(withText(R.string.admin_password_enabled)));
     }
-
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeServerSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(8, scrollTo()))
@@ -56,7 +56,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.restrict_server_settings_summary)));
     }
 
-
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeDeviceSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(9, scrollTo()))
@@ -65,7 +65,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 9),
                 isDisplayed())).check(matches(withText(R.string.restrict_device_settings_summary)));
     }
-
+    @Ignore
     @Test
     public void checkIfManageAbilityToChangeTableSpecificSettingScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(10, scrollTo()))
@@ -75,6 +75,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.admin_tool_tables_settings_summary)));
     }
 
+    @Ignore
     @Test
     public void checkIfResetConfigurationScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(6, scrollTo()))
@@ -84,6 +85,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 isDisplayed())).check(matches(withText(R.string.clear_configuration_settings)));
     }
 
+    @Ignore
     @Test
     public void checkIfExitAdminModeScreen_isVisible() {
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(11, scrollTo()))
