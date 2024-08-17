@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.isA;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.Checkable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -44,6 +46,7 @@ import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
 import org.opendatakit.utilities.LocalizationUtils;
 import org.opendatakit.utilities.ODKFileUtils;
+import org.opendatakit.utilities.RuntimePermissionUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeoutException;
@@ -76,6 +79,15 @@ public abstract class BaseUITest<T extends Activity> {
     public static void dismissSystemDialogIfShown() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+
+        Application app = ApplicationProvider.getApplicationContext();
+        boolean permissions = RuntimePermissionUtils.checkPackageAllPermission(context,app.getPackageName(),
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        );
+        if(!permissions) {
+            throw new RuntimeException("FILE PERMISSIONS MISSING");
+        }
     }
 
     @Before

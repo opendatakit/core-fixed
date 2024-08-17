@@ -18,12 +18,14 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     testOptions {
+        execution = 'ANDROIDX_TEST_ORCHESTRATOR'
         animationsDisabled = true
         unitTests {
             includeAndroidResources = true
         }
     }
-    // The following are set in the common.gradle file
+
+     // The following are set in the common.gradle file
     namespace(sevicesNamespace)
     compileSdk(compileVersion)
 
@@ -31,7 +33,7 @@ android {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
         testInstrumentationRunner(instrumentationRunner)
-
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildFeatures {
@@ -156,6 +158,8 @@ dependencies {
     androidTestImplementation 'com.google.truth:truth:1.1.3'
     androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+
+    androidTestUtil 'androidx.test:orchestrator:1.5.0'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:2.19.0'

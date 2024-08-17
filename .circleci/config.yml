@@ -45,7 +45,7 @@ jobs:
       - android/run-tests:
           test-command: ./gradlew createSnapshotDebugUnitTestCoverageReport
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp createSnapshotDebugAndroidTestCoverageReport
+          test-command: ./gradlew createSnapshotDebugAndroidTestCoverageReport
           no-output-timeout: 40m
       - store_artifacts:
           name: Store Test Results
