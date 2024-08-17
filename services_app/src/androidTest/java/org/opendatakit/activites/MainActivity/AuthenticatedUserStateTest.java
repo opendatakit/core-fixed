@@ -87,7 +87,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "true"));
             activity.recreate();
         });
-
+        Espresso.onIdle();
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         String testUrl = getActivity().getString(org.opendatakit.androidlibrary.R.string.default_sync_server_url);
 

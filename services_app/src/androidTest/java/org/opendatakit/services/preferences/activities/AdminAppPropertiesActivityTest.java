@@ -39,7 +39,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
         enableAdminMode();
         Espresso.pressBack();
 
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(androidx.preference.R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
     }
     @Ignore
     @Test
