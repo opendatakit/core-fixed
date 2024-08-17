@@ -9,10 +9,11 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.opendatakit.BaseFileTest;
 import org.opendatakit.services.utilities.UserState;
 import org.opendatakit.utilities.StaticStateManipulator;
 
-public class DefaultPropertiesTest {
+public class DefaultPropertiesTest extends BaseFileTest {
 
     public final String APP_NAME = "DefaultPropTest";
 

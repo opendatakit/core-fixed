@@ -47,11 +47,14 @@ jobs:
       - android/run-tests:
           test-command: ./gradlew createSnapshotDebugAndroidTestCoverageReport
           no-output-timeout: 40m
-      - store_artifacts:
-          name: Store Test Results
+      - store_test_results:
+          name: Store Unit Tests Results
+          path: services_app/build/test-results/testSnapshotDebugUnitTest
+      - store_test_results:
+          name: Store Android Tests Results
           path: services_app/build/outputs/androidTest-results
       - store_artifacts:
-          name: Store Test Reports
+          name: Store HTML Reports
           path: services_app/build/reports
 
   build:

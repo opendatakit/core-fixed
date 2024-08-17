@@ -10,9 +10,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.android.gms.common.internal.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.isA;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -21,7 +19,6 @@ import android.widget.Checkable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -32,26 +29,22 @@ import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
 import org.opendatakit.utilities.LocalizationUtils;
 import org.opendatakit.utilities.ODKFileUtils;
-import org.opendatakit.utilities.RuntimePermissionUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeoutException;
 
-public abstract class BaseUITest<T extends Activity> {
+public abstract class BaseUITest<T extends Activity> extends BaseFileTest {
 
     protected final static String APP_NAME = "testAppName";
     protected final static String TEST_SERVER_URL = "https://testUrl.com";
@@ -68,27 +61,6 @@ public abstract class BaseUITest<T extends Activity> {
 
     protected ActivityScenario<T> activityScenario;
 
-
-    @Rule
-    public GrantPermissionRule writeRuntimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-    @Rule
-    public GrantPermissionRule readtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE);
-
-    @BeforeClass
-    public static void dismissSystemDialogIfShown() {
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-
-        Application app = ApplicationProvider.getApplicationContext();
-        boolean permissions = RuntimePermissionUtils.checkPackageAllPermission(context,app.getPackageName(),
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        );
-        if(!permissions) {
-            throw new RuntimeException("FILE PERMISSIONS MISSING");
-        }
-    }
 
     @Before
     public void setUp() {
