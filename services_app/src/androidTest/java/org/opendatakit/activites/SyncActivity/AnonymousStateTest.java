@@ -1,6 +1,7 @@
 package org.opendatakit.activites.SyncActivity;
 
 import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -126,11 +127,13 @@ public class AnonymousStateTest extends BaseUITest<SyncActivity> {
         String type = syncTypes[new Random().nextInt(4)];
 
         onView(withId(R.id.autoInputSyncType)).perform(ViewActions.click());
+        Espresso.onIdle();
         onData(allOf(is(instanceOf(String.class)), is(type)))
                 .inRoot(RootMatchers.withDecorView(not(is(getActivity().getWindow().getDecorView()))))
                 .perform(ViewActions.click());
 
         activityScenario.recreate();
+        Espresso.onIdle();
         onView(withId(R.id.autoInputSyncType)).check(matches(withText(type)));
     }
 

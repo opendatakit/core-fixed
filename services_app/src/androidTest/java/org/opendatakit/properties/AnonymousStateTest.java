@@ -20,6 +20,7 @@ public class AnonymousStateTest extends BaseFileTest {
 
     @Before
     public void setUp() {
+        verifyReady();
         StaticStateManipulator.get().reset();
 
         PropertiesSingleton props = getProps(getContext());

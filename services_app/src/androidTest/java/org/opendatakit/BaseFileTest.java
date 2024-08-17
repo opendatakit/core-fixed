@@ -13,14 +13,14 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.opendatakit.utilities.RuntimePermissionUtils;
 
-public class BaseFileTest {
+public abstract class BaseFileTest {
     @Rule
     public GrantPermissionRule writeRuntimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     @Rule
     public GrantPermissionRule readtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE);
 
-    @BeforeClass
-    public static void dismissSystemDialogIfShown() {
+
+    protected void verifyReady() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 

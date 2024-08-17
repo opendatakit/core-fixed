@@ -70,7 +70,7 @@ public abstract class BaseUITest<T extends Activity> extends BaseFileTest {
         } else {
             throw new RuntimeException("Attempting to do init intents when already true");
         }
-
+        verifyReady();
         activityScenario = ActivityScenario.launch(getLaunchIntent());
         setUpPostLaunch();
     }
