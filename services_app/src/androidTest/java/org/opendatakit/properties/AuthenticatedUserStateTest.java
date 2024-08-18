@@ -14,6 +14,8 @@ import org.opendatakit.services.utilities.UserState;
 import org.opendatakit.utilities.StaticStateManipulator;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthenticatedUserStateTest {
 
@@ -125,18 +127,31 @@ public class AuthenticatedUserStateTest {
     @Test
     public void verifyResetProperties() {
         PropertiesSingleton props = getProps(getContext());
+        Map<String, String> properties = new HashMap<>();
+
+        properties.put(CommonToolProperties.KEY_USERNAME,TEST_USERNAME);
+        properties.put(CommonToolProperties.KEY_PASSWORD,TEST_USERNAME);
+        properties.put(CommonToolProperties.KEY_CURRENT_USER_STATE,"LOGGED_IN");
+
+        props.setProperties(properties);
         StaticStateManipulator.get().reset();
 
         props.clearSettings();
 
-        assertThat(props.getProperty(CommonToolProperties.KEY_USERNAME)).isNull();
-        assertThat(props.getProperty(CommonToolProperties.KEY_PASSWORD)).isNull();
-        assertThat(props.getProperty(CommonToolProperties.KEY_CURRENT_USER_STATE)).isNull();
+        assertThat(props.getProperty(CommonToolProperties.KEY_USERNAME)).isEmpty();
+        assertThat(props.getProperty(CommonToolProperties.KEY_PASSWORD)).isEmpty();
+        assertThat(props.getProperty(CommonToolProperties.KEY_CURRENT_USER_STATE)).isEqualTo("LOGGED_OUT");
     }
 
     @Test
     public void verifyStandardGroupsProperty() {
         PropertiesSingleton props = getProps(getContext());
+
+        Map<String, String> properties = new HashMap<>();
+
+        properties.put(CommonToolProperties.KEY_DEFAULT_GROUP, "DATA_COLLECTORS");
+
+        props.setProperties(properties);
 
         String expectedGroup = "DATA_COLLECTORS";
         String actualGroup = props.getProperty(CommonToolProperties.KEY_DEFAULT_GROUP);
@@ -148,6 +163,12 @@ public class AuthenticatedUserStateTest {
     @Test
     public void verifyStandardRolesProperty() {
         PropertiesSingleton props = getProps(getContext());
+
+        Map<String, String> properties = new HashMap<>();
+
+        properties.put(CommonToolProperties.KEY_ROLES_LIST, "ROLE_USER");
+
+        props.setProperties(properties);
 
         String expectedRole = "ROLE_USER";
         String actualRolesList = props.getProperty(CommonToolProperties.KEY_ROLES_LIST);
@@ -161,11 +182,18 @@ public class AuthenticatedUserStateTest {
         PropertiesSingleton props = getProps(getContext());
 
         String[] expectedRoles = {"ROLE_USER", "ROLE_ADMIN"};
+        String rolesValue = String.join(",", expectedRoles);
+
+        Map<String, String> properties = new HashMap<>();
+        properties.put(CommonToolProperties.KEY_ROLES_LIST, rolesValue);
+
+        props.setProperties(properties);
+
         String actualRolesList = props.getProperty(CommonToolProperties.KEY_ROLES_LIST);
 
         assertThat(actualRolesList).isNotNull();
 
-        for (String role: expectedRoles) {
+        for (String role : expectedRoles) {
             assertThat(actualRolesList).contains(role);
         }
     }
