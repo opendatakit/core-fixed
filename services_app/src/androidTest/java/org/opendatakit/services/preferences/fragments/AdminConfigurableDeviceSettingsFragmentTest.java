@@ -53,6 +53,8 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
         Espresso.pressBack();
         launchDeviceSettingPreferenceScreen();
 
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
+
         onView(allOf(withId(android.R.id.title),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 0)))
                 .check(matches(withText(R.string.device_restrictions_apply)));
@@ -73,6 +75,8 @@ public class AdminConfigurableDeviceSettingsFragmentTest extends BaseUITest<AppP
         setCheckboxValue(true);
         Espresso.pressBack();
         launchDeviceSettingPreferenceScreen();
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
 
         onView(allOf(withId(android.R.id.title),
                 childAtPosition(withId(androidx.preference.R.id.recycler_view), 0)))
