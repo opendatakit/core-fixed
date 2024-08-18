@@ -13,6 +13,10 @@ import org.opendatakit.services.sync.actions.fragments.SetCredentialsFragment;
 import org.opendatakit.services.utilities.UserState;
 import org.opendatakit.utilities.StaticStateManipulator;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class AuthenticatedUserStateTest {
 
     public final String APP_NAME = "AuthenticatedUserStatePropTest";
@@ -59,6 +63,157 @@ public class AuthenticatedUserStateTest {
         isUserAuthenticated = Boolean.parseBoolean(isUserAuthenticatedStr);
         assertThat(isUserAuthenticated).isFalse();
     }
+
+    @Test
+    public void verifyPasswordProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String password = props.getProperty(CommonToolProperties.KEY_PASSWORD);
+        assertThat(password).isNotNull();
+        assertThat(password).isEqualTo(TEST_PASSWORD);
+    }
+
+    @Test
+    public void verifyDefaultGroupProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String defaultGroup = props.getProperty(CommonToolProperties.KEY_DEFAULT_GROUP);
+        assertThat(defaultGroup).isNotNull();
+        assertThat(defaultGroup).isEqualTo("");
+    }
+
+    @Test
+    public void verifyRolesListProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String rolesList = props.getProperty(CommonToolProperties.KEY_ROLES_LIST);
+        assertThat(rolesList).isNotNull();
+        assertThat(rolesList).isEqualTo("");
+    }
+
+    @Test
+    public void verifyUsersListProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String usersList = props.getProperty(CommonToolProperties.KEY_USERS_LIST);
+        assertThat(usersList).isNotNull();
+        assertThat(usersList).isEqualTo("");
+    }
+
+    @Test
+    public void verifyLastSyncInfoProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String lastSyncInfo = props.getProperty(CommonToolProperties.KEY_LAST_SYNC_INFO);
+        assertThat(lastSyncInfo).isNull();
+    }
+
+    @Test
+    public void verifyAuthenticationTypeProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String authType = props.getProperty(CommonToolProperties.KEY_AUTHENTICATION_TYPE);
+        assertThat(authType).isNotNull();
+        assertThat(authType).isEqualTo("username_password");
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void verifyInvalidUserState() {
+        PropertiesSingleton props = getProps(getContext());
+        props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_CURRENT_USER_STATE, "INVALID_STATE"));
+
+        UserState.valueOf(props.getProperty(CommonToolProperties.KEY_CURRENT_USER_STATE));
+    }
+
+    @Test
+    public void verifyResetProperties() {
+        PropertiesSingleton props = getProps(getContext());
+        Map<String, String> properties = new HashMap<>();
+
+        properties.put(CommonToolProperties.KEY_USERNAME,TEST_USERNAME);
+        properties.put(CommonToolProperties.KEY_PASSWORD,TEST_USERNAME);
+        properties.put(CommonToolProperties.KEY_CURRENT_USER_STATE,"LOGGED_IN");
+
+        props.setProperties(properties);
+        StaticStateManipulator.get().reset();
+
+        props.clearSettings();
+
+        assertThat(props.getProperty(CommonToolProperties.KEY_USERNAME)).isEmpty();
+        assertThat(props.getProperty(CommonToolProperties.KEY_PASSWORD)).isEmpty();
+        assertThat(props.getProperty(CommonToolProperties.KEY_CURRENT_USER_STATE)).isEqualTo("LOGGED_OUT");
+    }
+
+    @Test
+    public void verifyStandardGroupsProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        Map<String, String> properties = new HashMap<>();
+
+        properties.put(CommonToolProperties.KEY_DEFAULT_GROUP, "DATA_COLLECTORS");
+
+        props.setProperties(properties);
+
+        String expectedGroup = "DATA_COLLECTORS";
+        String actualGroup = props.getProperty(CommonToolProperties.KEY_DEFAULT_GROUP);
+
+        assertThat(actualGroup).isNotNull();
+        assertThat(actualGroup).isEqualTo(expectedGroup);
+    }
+
+    @Test
+    public void verifyStandardRolesProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        Map<String, String> properties = new HashMap<>();
+
+        properties.put(CommonToolProperties.KEY_ROLES_LIST, "ROLE_USER");
+
+        props.setProperties(properties);
+
+        String expectedRole = "ROLE_USER";
+        String actualRolesList = props.getProperty(CommonToolProperties.KEY_ROLES_LIST);
+
+        assertThat(actualRolesList).isNotNull();
+        assertThat(actualRolesList).contains(expectedRole);
+    }
+
+    @Test
+    public void verifyMultipleRolesProperty() {
+        PropertiesSingleton props = getProps(getContext());
+
+        String[] expectedRoles = {"ROLE_USER", "ROLE_ADMIN"};
+        String rolesValue = String.join(",", expectedRoles);
+
+        Map<String, String> properties = new HashMap<>();
+        properties.put(CommonToolProperties.KEY_ROLES_LIST, rolesValue);
+
+        props.setProperties(properties);
+
+        String actualRolesList = props.getProperty(CommonToolProperties.KEY_ROLES_LIST);
+
+        assertThat(actualRolesList).isNotNull();
+
+        for (String role : expectedRoles) {
+            assertThat(actualRolesList).contains(role);
+        }
+    }
+
+    @Test
+    public void verifyAllProperties() {
+        PropertiesSingleton props = getProps(getContext());
+
+        assertThat(props.getProperty(CommonToolProperties.KEY_USERNAME)).isEqualTo(TEST_USERNAME);
+        assertThat(props.getProperty(CommonToolProperties.KEY_PASSWORD)).isEqualTo(TEST_PASSWORD);
+        assertThat(props.getProperty(CommonToolProperties.KEY_CURRENT_USER_STATE)).isEqualTo(UserState.AUTHENTICATED_USER.name());
+        assertThat(Boolean.parseBoolean(props.getProperty(CommonToolProperties.KEY_IS_USER_AUTHENTICATED))).isFalse();
+        assertThat(props.getProperty(CommonToolProperties.KEY_DEFAULT_GROUP)).isEqualTo("");
+        assertThat(props.getProperty(CommonToolProperties.KEY_ROLES_LIST)).isEqualTo("");
+        assertThat(props.getProperty(CommonToolProperties.KEY_USERS_LIST)).isEqualTo("");
+        assertThat(props.getProperty(CommonToolProperties.KEY_LAST_SYNC_INFO)).isNull();
+        assertThat(props.getProperty(CommonToolProperties.KEY_AUTHENTICATION_TYPE)).isEqualTo("username_password");
+    }
+
+
 
     @After
     public void clearProperties() {
