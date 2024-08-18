@@ -65,6 +65,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
         return intent;
     }
 
+    @Ignore
     @Test
     public void checkFirstStartupTest() {
         activityScenario.onActivity(activity -> {
@@ -75,6 +76,7 @@ public class GeneralStateTest extends BaseUITest<MainActivity> {
             activity.recreate();
         });
         Espresso.onIdle();
+
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 

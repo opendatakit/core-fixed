@@ -93,6 +93,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.inputServerUrl), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(testUrl)));
     }

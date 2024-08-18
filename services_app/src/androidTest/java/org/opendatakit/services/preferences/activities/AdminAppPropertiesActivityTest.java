@@ -98,6 +98,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
 
     @Test
     public void checkIfVerifyUserPermissionScreen_isVisible() {
+        onView(ViewMatchers.isRoot()).perform(waitForViewToBeShown(withId(androidx.preference.R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
         onView(withId(androidx.preference.R.id.recycler_view)).perform(actionOnItemAtPosition(2, scrollTo()))
                 .check(matches(atPosition(2, hasDescendant(withText(R.string.verify_server_settings_header)))));
         onView(allOf(withId(android.R.id.summary),
@@ -107,7 +108,6 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
 
     @After
     public void tearDown() throws Exception {
-        resetConfiguration();
         resetConfiguration();
         super.tearDown();
     }

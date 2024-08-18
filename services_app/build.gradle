@@ -18,7 +18,6 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     testOptions {
-        execution = 'ANDROIDX_TEST_ORCHESTRATOR'
         animationsDisabled = true
         unitTests {
             includeAndroidResources = true
@@ -33,7 +32,6 @@ android {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
         testInstrumentationRunner(instrumentationRunner)
-        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildFeatures {

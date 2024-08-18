@@ -226,6 +226,44 @@ public abstract class BaseUITest<T extends Activity> extends BaseFileTest {
             }
         };
     }
+
+    public static ViewAction waitForViewToBeShown(final Matcher<View> viewMatcher, final long millis) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return isRoot();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Wait for a specific view with id <" + viewMatcher + "> during " + millis + " millis.";
+            }
+
+            @Override
+            public void perform(final UiController uiController, final View view) {
+                final long startTime = System.currentTimeMillis();
+                final long endTime = startTime + millis;
+
+                do {
+                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+                        if (viewMatcher.matches(child)) {
+                            if(child.isShown())
+                                return;
+                        }
+                    }
+
+                    uiController.loopMainThreadForAtLeast(10);
+                } while (System.currentTimeMillis() < endTime);
+
+                throw new PerformException.Builder()
+                        .withActionDescription(this.getDescription())
+                        .withViewDescription(HumanReadables.describe(view))
+                        .withCause(new TimeoutException())
+                        .build();
+            }
+        };
+    }
+
     public static void enableAdminMode() {
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.user_restrictions)),

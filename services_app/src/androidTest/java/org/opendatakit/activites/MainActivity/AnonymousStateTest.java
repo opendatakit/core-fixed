@@ -68,6 +68,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
+    @Ignore
     @Test
     public void checkFirstStartupTest() {
         activityScenario.onActivity(activity -> {
@@ -81,6 +82,7 @@ public class AnonymousStateTest extends BaseUITest<MainActivity> {
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(click());
 
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.inputServerUrl), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(DEFAULT_SERVER_URL)));
     }

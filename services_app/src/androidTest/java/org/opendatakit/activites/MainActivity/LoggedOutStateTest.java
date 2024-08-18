@@ -3,6 +3,7 @@ package org.opendatakit.activites.MainActivity;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -11,6 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
+import android.view.View;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -19,6 +21,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -76,6 +79,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
         onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.inputServerUrl), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
         onView(withId(R.id.inputTextServerUrl)).check(matches(withText(DEFAULT_SERVER_URL)));
     }
@@ -113,7 +117,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
     @Test
     public void verifyDrawerSignInButtonClickTest() {
         onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
-        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerLogin), TestConsts.TIMEOUT_WAIT));
+        onView(ViewMatchers.isRoot()).perform(waitForViewToBeShown(withId(R.id.btnDrawerLogin), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
         onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.SHORT_WAIT));
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
