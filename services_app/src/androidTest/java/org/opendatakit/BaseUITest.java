@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Checkable;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.PerformException;
@@ -72,6 +73,10 @@ public abstract class BaseUITest<T extends Activity> extends BaseFileTest {
         }
         verifyReady();
         activityScenario = ActivityScenario.launch(getLaunchIntent());
+        Lifecycle.State state = activityScenario.getState();
+        if(state != Lifecycle.State.RESUMED) {
+            throw new RuntimeException("State Not Resumed");
+        }
         setUpPostLaunch();
     }
 

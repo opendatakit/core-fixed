@@ -170,8 +170,3 @@ dependencies {
 
 }
 
-task grantPermissionForODKXApp {
-    dependsOn grantServicesReadExternalStoragePermission
-    dependsOn grantServicesWriteExternalStoragePermission
-}
-

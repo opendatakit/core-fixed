@@ -9,7 +9,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.opendatakit.utilities.RuntimePermissionUtils;
 

@@ -17,9 +17,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.rule.ActivityTestRule;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -41,14 +39,10 @@ import java.util.Map;
 
 public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsActivity> {
 
-    @Rule
-    public ActivityTestRule<VerifyServerSettingsActivity> activityRule = new ActivityTestRule<>(VerifyServerSettingsActivity.class);
-
-
-    @Override
+      @Override
     protected void setUpPostLaunch() {
-        activityRule.getActivity().runOnUiThread(() -> {
-            PropertiesSingleton props = activityRule.getActivity().getProps();
+        activityScenario.onActivity(activity -> {
+            PropertiesSingleton props = activity.getProps();
             assertThat(props).isNotNull();
 
             Map<String, String> serverProperties = UpdateServerSettingsFragment.getUpdateUrlProperties(TEST_SERVER_URL);
@@ -61,7 +55,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<VerifyServerSettingsA
 
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "false"));
 
-            activityRule.getActivity().updateViewModelWithProps();
+            activity.updateViewModelWithProps();
         });
 
         Espresso.onIdle();
