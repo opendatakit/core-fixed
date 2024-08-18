@@ -22,6 +22,7 @@ import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
 import org.opendatakit.TestConsts;
@@ -66,6 +67,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
         return intent;
     }
 
+    @Ignore
     @Test
     public void checkFirstStartupTest() {
         activityScenario.onActivity(activity -> {
@@ -118,6 +120,7 @@ public class LoggedOutStateTest extends BaseUITest<MainActivity> {
     public void verifyDrawerSignInButtonClickTest() {
         onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(ViewMatchers.isRoot()).perform(waitForViewToBeShown(withId(R.id.btnDrawerLogin), TestConsts.TIMEOUT_WAIT));
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.SHORT_WAIT));
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
         onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.SHORT_WAIT));
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));

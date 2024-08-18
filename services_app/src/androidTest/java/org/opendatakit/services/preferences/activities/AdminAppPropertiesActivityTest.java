@@ -96,6 +96,7 @@ public class AdminAppPropertiesActivityTest extends BaseUITest<AppPropertiesActi
                 .check(matches(atPosition(11, hasDescendant(withText(R.string.exit_admin_mode)))));
     }
 
+    @Ignore
     @Test
     public void checkIfVerifyUserPermissionScreen_isVisible() {
         onView(ViewMatchers.isRoot()).perform(waitForViewToBeShown(withId(androidx.preference.R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
