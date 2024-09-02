@@ -10,24 +10,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.hasToString;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -43,7 +39,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
 
@@ -65,6 +60,9 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
 
             activity.updateViewModelWithProps();
         });
+
+        Espresso.onIdle();
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -83,7 +81,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
         onView(withId(R.id.tvUsernameSync)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         onView(withId(R.id.tvLastSyncTimeSync)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_resolve_conflict)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_switch_sign_in_type)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_update_credentials)).check(matches(isDisplayed()));
@@ -102,19 +100,20 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_out_button_text))));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+    @Ignore
     @Test
     public void verifyChangeSyncTypeTest() {
         String[] syncTypes = getContext().getResources().getStringArray(R.array.sync_attachment_option_names);
-        String type = syncTypes[new Random().nextInt(4)];
-
-        onView(withId(R.id.autoInputSyncType)).perform(ViewActions.click());
-        onData(allOf(is(instanceOf(String.class)), is(type)))
-                .inRoot(RootMatchers.withDecorView(not(is(getActivity().getWindow().getDecorView()))))
-                .perform(ViewActions.click());
-
-        activityScenario.recreate();
-        onView(withId(R.id.autoInputSyncType)).check(matches(withText(type)));
+        for(int i=0; i < syncTypes.length; i++ ) {
+            onView(withId(R.id.autoInputSyncType)).perform(ViewActions.click());
+            String syncType = syncTypes[i];
+            onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.inputSyncType), TestConsts.TIMEOUT_WAIT));
+            onData(hasToString(syncType)).perform(ViewActions.click());
+            waitFor(TestConsts.SHORT_WAIT);
+            activityScenario.recreate();
+            onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.autoInputSyncType), TestConsts.TIMEOUT_WAIT));
+            onView(withId(R.id.autoInputSyncType)).check(matches(withText(syncType)));
+        }
     }
 
     @Test
@@ -131,14 +130,14 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
 
     @Test
     public void verifyDrawerResolveConflictsClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_resolve_conflict)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 
     @Test
     public void verifyDrawerSwitchSignInTypeClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_switch_sign_in_type)).perform(ViewActions.click());
 
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
@@ -163,13 +162,13 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
             activity.updateViewModelWithProps();
         });
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(matches(isNotEnabled()));
     }
 
     @Test
     public void verifyDrawerUpdateCredentialsClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_update_credentials)).perform(ViewActions.click());
 
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
@@ -183,7 +182,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<SyncActivity> {
 
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
 
         onView(withId(R.id.tvSignInWarnHeadingSync)).check(matches(isDisplayed()));

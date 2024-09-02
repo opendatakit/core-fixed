@@ -8,7 +8,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.truth.Truth.assertThat;
@@ -20,11 +19,12 @@ import android.content.Intent;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.PropertiesSingleton;
 import org.opendatakit.services.R;
@@ -40,6 +40,8 @@ public class AdminConfigurableTablesSettingsFragmentTest extends BaseUITest<AppP
         });
         enableAdminMode();
         Espresso.pressBack();
+
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.admin_tool_tables_settings)),
                         click()));
@@ -77,8 +79,9 @@ public class AdminConfigurableTablesSettingsFragmentTest extends BaseUITest<AppP
     }
 
     @After
-    public void after() {
+    public void tearDown() throws Exception {
         resetConfiguration();
+        super.tearDown();
     }
 
     @Override
@@ -94,7 +97,7 @@ public class AdminConfigurableTablesSettingsFragmentTest extends BaseUITest<AppP
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.exit_admin_mode)),
                         click()));
 
-        onView(isRoot()).perform(waitFor(1000));
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.recycler_view), TestConsts.TIMEOUT_WAIT));
 
         onView(withId(androidx.preference.R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.odkx_tables)),

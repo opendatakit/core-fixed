@@ -84,7 +84,7 @@ public abstract class AbsSyncBaseActivity extends AppCompatActivity
     private class OnButtonClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.btnDrawerOpen) {
+            if (v.getId() == R.id.btnDrawerOpenSyncActivity) {
                 drawerLayout.openDrawer(GravityCompat.START);
             } else if (v.getId() == R.id.btnDrawerClose) {
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -303,7 +303,7 @@ public abstract class AbsSyncBaseActivity extends AppCompatActivity
 
         btnDrawerSignIn = navView.getHeaderView(0).findViewById(R.id.btnDrawerLogin);
 
-        ImageButton btnDrawerOpen = findViewById(R.id.btnDrawerOpen);
+        ImageButton btnDrawerOpen = findViewById(R.id.btnDrawerOpenSyncActivity);
         ImageButton btnDrawerClose = navView.getHeaderView(0).findViewById(R.id.btnDrawerClose);
 
         OnButtonClick onButtonClick = new OnButtonClick();

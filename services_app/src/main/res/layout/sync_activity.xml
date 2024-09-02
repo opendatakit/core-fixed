@@ -32,7 +32,7 @@
                 app:menu="@menu/menu_sync_activity">
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btnDrawerOpen"
+                    android:id="@+id/btnDrawerOpenSyncActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/zxing_transparent"

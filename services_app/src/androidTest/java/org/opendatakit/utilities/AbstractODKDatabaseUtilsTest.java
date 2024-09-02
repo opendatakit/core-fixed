@@ -14,12 +14,20 @@
 
 package org.opendatakit.utilities;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.Manifest;
 import android.content.ContentValues;
 import android.database.Cursor;
 
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.GrantPermissionRule;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.junit.Rule;
@@ -79,13 +87,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Created by wrb on 9/21/2015.

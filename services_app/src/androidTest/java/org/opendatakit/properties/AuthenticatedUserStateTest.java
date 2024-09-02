@@ -9,11 +9,12 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.opendatakit.BaseFileTest;
 import org.opendatakit.services.sync.actions.fragments.SetCredentialsFragment;
 import org.opendatakit.services.utilities.UserState;
 import org.opendatakit.utilities.StaticStateManipulator;
 
-public class AuthenticatedUserStateTest {
+public class AuthenticatedUserStateTest extends BaseFileTest {
 
     public final String APP_NAME = "AuthenticatedUserStatePropTest";
 
@@ -22,6 +23,7 @@ public class AuthenticatedUserStateTest {
 
     @Before
     public void setUp() {
+        verifyReady();
         StaticStateManipulator.get().reset();
 
         PropertiesSingleton props = getProps(getContext());

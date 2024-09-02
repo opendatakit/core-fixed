@@ -1,5 +1,9 @@
 package org.opendatakit.services.sync.service.logic;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
@@ -54,10 +58,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 /**
  * This set of tests relies on a propery configured test cloud endpoint.

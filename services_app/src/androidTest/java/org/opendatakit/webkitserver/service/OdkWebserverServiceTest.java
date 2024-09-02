@@ -1,5 +1,8 @@
 package org.opendatakit.webkitserver.service;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,7 +26,6 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.opendatakit.TestConsts;
 import org.opendatakit.consts.WebkitServerConsts;
-
 import org.opendatakit.logging.WebLogger;
 import org.opendatakit.utilities.ODKFileUtils;
 import org.opendatakit.utilities.StaticStateManipulator;
@@ -35,11 +37,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * @author mitchellsundt@gmail.com

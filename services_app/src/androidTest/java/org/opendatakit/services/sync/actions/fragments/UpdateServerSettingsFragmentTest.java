@@ -7,46 +7,43 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import android.content.Context;
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.platform.app.InstrumentationRegistry;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.services.MainActivity;
 import org.opendatakit.services.R;
 import org.opendatakit.services.sync.actions.activities.VerifyServerSettingsActivity;
 
-public class UpdateServerSettingsFragmentTest {
-    private ActivityScenario<MainActivity> activityScenario;
+public class UpdateServerSettingsFragmentTest extends BaseUITest<MainActivity> {
 
-    @Before
-    public void setUp() throws Exception {
-        String APP_NAME = "testAppName";
 
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(IntentConsts.INTENT_KEY_APP_NAME, APP_NAME);
-        activityScenario = ActivityScenario.launch(intent);
-
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+    @Override
+    protected void setUpPostLaunch() {
+        Espresso.onIdle();
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_server_login)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_server_login)).perform(ViewActions.click());
-        Intents.init();
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
+    @Override
+    protected Intent getLaunchIntent() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.putExtra(IntentConsts.INTENT_KEY_APP_NAME, APP_NAME);
+
+        return intent;
+    }
+
     @Test
     public void whenUpdateServerUrlButtonClicked_doUpdateServerUrl_checkIfUrlIsEmpty() {
         onView(withId(R.id.inputTextServerUrl)).perform(replaceText(""));
@@ -83,16 +80,5 @@ public class UpdateServerSettingsFragmentTest {
         intended(hasComponent(VerifyServerSettingsActivity.class.getName()));
 
     }
-
-    @After
-    public void tearDown() throws Exception {
-        Intents.release();
-
-    }
-
-    private Context getContext() {
-        return InstrumentationRegistry.getInstrumentation().getTargetContext();
-    }
-
 
 }

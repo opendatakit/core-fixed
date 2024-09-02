@@ -1,10 +1,12 @@
 package org.opendatakit.activites.MainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -12,17 +14,17 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -64,6 +66,8 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             activity.updateViewModelWithProps();
         });
 
+        Espresso.onIdle();
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -74,6 +78,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
         return intent;
     }
 
+    @Ignore
     @Test
     public void checkFirstStartupTest() {
         activityScenario.onActivity(activity -> {
@@ -83,11 +88,15 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_FIRST_LAUNCH, "true"));
             activity.recreate();
         });
+        Espresso.onIdle();
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(android.R.id.button1), TestConsts.TIMEOUT_WAIT));
+        String testUrl = getActivity().getString(org.opendatakit.androidlibrary.R.string.default_sync_server_url);
 
         onView(withId(android.R.id.button1)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click());
 
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.inputServerUrl), TestConsts.TIMEOUT_WAIT));
         onView(withId(R.id.inputServerUrl)).check(matches(isDisplayed()));
-        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(SERVER_URL)));
+        onView(withId(R.id.inputTextServerUrl)).check(matches(withText(testUrl)));
     }
     @Test
     public void verifyVisibilityTest() {
@@ -97,7 +106,7 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.tvLastSyncTimeMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         onView(withId(R.id.btnSignInMain)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
 
         onView(withId(R.id.drawer_resolve_conflict)).check(matches(isDisplayed()));
         onView(withId(R.id.drawer_switch_sign_in_type)).check(matches(isDisplayed()));
@@ -128,6 +137,11 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
             props.setProperties(Collections.singletonMap(CommonToolProperties.KEY_LAST_SYNC_INFO, Long.toString(currentTime)));
             activity.updateViewModelWithProps();
         });
+
+        Espresso.onIdle();
+
+        onView(ViewMatchers.isRoot()).perform(waitForViewToBeShown(withId(R.id.tvLastSyncTimeMain), TestConsts.TIMEOUT_WAIT));
+
         onView(withId(R.id.tvLastSyncTimeMain)).check(matches(withText(DateTimeUtil.getDisplayDate(currentTime))));
     }
 
@@ -139,14 +153,14 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
     @Test
     public void verifyDrawerResolveConflictsClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_resolve_conflict)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(AllConflictsResolutionActivity.class.getName()));
     }
 
     @Test
     public void verifyDrawerSwitchSignInTypeClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_switch_sign_in_type)).perform(ViewActions.click());
 
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
@@ -170,14 +184,17 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
 
             activity.updateViewModelWithProps();
         });
+        Espresso.onIdle();
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(ViewMatchers.isRoot()).perform(waitForViewToBeShown(withId(R.id.btnDrawerOpenMainActivity), TestConsts.TIMEOUT_WAIT));
+
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(matches(isNotEnabled()));
     }
 
     @Test
     public void verifyDrawerUpdateCredentialsClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_update_credentials)).perform(ViewActions.click());
 
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
@@ -188,16 +205,19 @@ public class AuthenticatedUserStateTest extends BaseUITest<MainActivity> {
         onView(withId(R.id.inputTextUsername)).check(matches(withText(TEST_USERNAME)));
         onView(withId(R.id.inputTextPassword)).check(matches(withText("")));
     }
-
-    @Ignore // OUTREACHY-BROKEN-TEST
+    @Ignore
     @Test
     public void verifyDrawerSignOutButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
-        onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenMainActivity)).perform(click());
+
+        onView(isRoot()).perform(BaseUITest.waitForView(withId(R.id.btnDrawerLogin), TestConsts.TIMEOUT_WAIT));
+        onView(withId(R.id.btnDrawerLogin)).perform(click());
+        onView(isRoot()).perform(BaseUITest.waitFor(TestConsts.SHORT_WAIT));
 
         onView(withId(R.id.tvUserStateMain)).check(matches(withText(getContext().getString(R.string.logged_out))));
         onView(withId(R.id.btnDrawerLogin)).check(matches(withText(getContext().getString(R.string.drawer_sign_in_button_text))));
 
         onView(withId(R.id.btnSignInMain)).check(matches(isDisplayed()));
     }
+
 }

@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements IAppAwareActivity
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.btnDrawerOpen) {
+            if (v.getId() == R.id.btnDrawerOpenMainActivity) {
                 drawerLayout.openDrawer(GravityCompat.START);
             } else if (v.getId() == R.id.btnDrawerClose) {
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements IAppAwareActivity
 
         btnDrawerSignIn = navView.getHeaderView(0).findViewById(R.id.btnDrawerLogin);
 
-        ImageButton btnDrawerOpen = findViewById(R.id.btnDrawerOpen);
+        ImageButton btnDrawerOpen = findViewById(R.id.btnDrawerOpenMainActivity);
         ImageButton btnDrawerClose = navView.getHeaderView(0).findViewById(R.id.btnDrawerClose);
 
         toolbar.setOnMenuItemClickListener(new OnToolbarMenuItemClick());

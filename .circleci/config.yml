@@ -8,29 +8,27 @@ jobs:
     description: Runs unit tests and instrumented tests on the Android Common
     executor:
       name: android/android-machine
-      resource-class: large
+      resource-class: xlarge
       tag: 2024.01.1
 
     steps:
       - checkout
-
       - run:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
 
       - android/create-avd:
-          avd-name: Pixel_7_Pro
-          system-image: system-images;android-30;google_apis_playstore;x86_64
+          avd-name: testEmulator
+          system-image: system-images;android-30;google_apis;x86
           install: true
-
+          additional-args: -c 2048M
       - run:
           name: Start ADB server
           command: adb start-server
 
       - android/start-emulator:
-          avd-name: Pixel_7_Pro
+          avd-name: testEmulator
           no-window: true
-          restore-gradle-cache-prefix: v1
           memory: 4096
           post-emulator-launch-assemble-command: ./gradlew installSnapshotDebug
 
@@ -38,27 +36,25 @@ jobs:
 
       - run:
           name: Wait for Emulator to be Ready
-          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'  # Ensures the emulator is fully booted
+          command: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; sleep 5'
 
       - run:
           name: Restart ADB server
-          command: adb kill-server && adb start-server  # Restart ADB server to avoid version mismatch issues
+          command: adb kill-server && adb start-server
 
       - android/run-tests:
-          test-command: ./gradlew testSnapshotDebugUnitTest
-
+          test-command: ./gradlew createSnapshotDebugUnitTestCoverageReport
       - android/run-tests:
-          test-command: ./gradlew grantPermissionForODKXApp connectedSnapshotDebugAndroidTest --info
-
-      - android/save-gradle-cache:
-          cache-prefix: v1
-
-      - store_artifacts:
-          name: Store Test Results
+          test-command: ./gradlew createSnapshotDebugAndroidTestCoverageReport
+          no-output-timeout: 40m
+      - store_test_results:
+          name: Store Unit Tests Results
+          path: services_app/build/test-results/testSnapshotDebugUnitTest
+      - store_test_results:
+          name: Store Android Tests Results
           path: services_app/build/outputs/androidTest-results
-
       - store_artifacts:
-          name: Store Test Reports
+          name: Store HTML Reports
           path: services_app/build/reports
 
   build:
@@ -72,15 +68,9 @@ jobs:
           name: Chmod Permissions
           command: sudo chmod +x gradlew
 
-      - android/restore-gradle-cache:
-          cache-prefix: v1
-
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-
-      - android/save-gradle-cache:
-          cache-prefix: v1
 
       - run:
           name: Build Services

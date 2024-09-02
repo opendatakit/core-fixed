@@ -14,12 +14,21 @@
 
 package org.opendatakit.utilities;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.Manifest;
 import android.content.ContentValues;
 import android.database.Cursor;
-import androidx.test.rule.GrantPermissionRule;
 import android.util.Log;
+
+import androidx.test.rule.GrantPermissionRule;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -57,13 +66,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Permissions tests in the database.

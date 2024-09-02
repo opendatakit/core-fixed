@@ -23,7 +23,8 @@ android {
             includeAndroidResources = true
         }
     }
-    // The following are set in the common.gradle file
+
+     // The following are set in the common.gradle file
     namespace(sevicesNamespace)
     compileSdk(compileVersion)
 
@@ -31,7 +32,6 @@ android {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
         testInstrumentationRunner(instrumentationRunner)
-
     }
 
     buildFeatures {
@@ -77,6 +77,7 @@ android {
         }
         debug {
             debuggable(true)
+            testCoverageEnabled = testCoverage
         }
     }
 
@@ -156,6 +157,8 @@ dependencies {
     androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
 
+    androidTestUtil 'androidx.test:orchestrator:1.5.0'
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation 'androidx.annotation:annotation:1.7.1'
@@ -163,10 +166,5 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.8.1'
     testImplementation 'android.arch.core:core-testing:1.1.1'
 
-}
-
-task grantPermissionForODKXApp {
-    dependsOn grantServicesReadExternalStoragePermission
-    dependsOn grantServicesWriteExternalStoragePermission
 }
 

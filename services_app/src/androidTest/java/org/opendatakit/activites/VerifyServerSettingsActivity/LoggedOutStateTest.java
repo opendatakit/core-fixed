@@ -10,16 +10,15 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -47,6 +46,9 @@ public class LoggedOutStateTest extends BaseUITest<VerifyServerSettingsActivity>
 
             activity.updateViewModelWithProps();
         });
+
+        Espresso.onIdle();
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
     @Override
@@ -65,7 +67,7 @@ public class LoggedOutStateTest extends BaseUITest<VerifyServerSettingsActivity>
         onView(withId(R.id.tvLastSyncTimeVerify)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         onView(withId(R.id.btnStartVerifyUser)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.drawer_resolve_conflict)).check(doesNotExist());
         onView(withId(R.id.drawer_switch_sign_in_type)).check(doesNotExist());
         onView(withId(R.id.drawer_update_credentials)).check(doesNotExist());
@@ -79,7 +81,7 @@ public class LoggedOutStateTest extends BaseUITest<VerifyServerSettingsActivity>
 
     @Test
     public void verifyDrawerSignInButtonClick() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.btnDrawerLogin)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(LoginActivity.class.getName()));
     }

@@ -6,17 +6,17 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Intent;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.opendatakit.BaseUITest;
+import org.opendatakit.TestConsts;
 import org.opendatakit.consts.IntentConsts;
 import org.opendatakit.properties.CommonToolProperties;
 import org.opendatakit.properties.PropertiesSingleton;
@@ -42,18 +42,19 @@ public class LoggedOutStateTest extends BaseUITest<LoginActivity> {
 
             activity.updateViewModelWithProps();
         });
+
+        Espresso.onIdle();
+        onView(ViewMatchers.isRoot()).perform(waitForView(withId(R.id.btnDrawerOpenSyncActivity), TestConsts.TIMEOUT_WAIT));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyValuesTest() {
         onView(withId(R.id.tvServerUrlLogin)).check(matches(withText(TEST_SERVER_URL)));
     }
 
-    @Ignore // OUTREACHY-BROKEN-TEST
     @Test
     public void verifyVisibilityTest() {
-        onView(withId(R.id.btnDrawerOpen)).perform(ViewActions.click());
+        onView(withId(R.id.btnDrawerOpenSyncActivity)).perform(ViewActions.click());
         onView(withId(R.id.btnDrawerLogin)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         onView(withId(R.id.drawer_resolve_conflict)).check(doesNotExist());
     }
