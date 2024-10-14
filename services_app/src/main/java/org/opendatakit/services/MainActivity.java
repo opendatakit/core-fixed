@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements IAppAwareActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Handle the splash screen transition.
         SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
